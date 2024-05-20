@@ -36,7 +36,8 @@ class CategoryRequest extends FormRequest
             'name'        => 'required|unique:categories|max:255',
             'description' => 'required',
             'status'      => 'required',
-            'cover_image' => 'required'
+            'cover_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+
         ];
     }
 

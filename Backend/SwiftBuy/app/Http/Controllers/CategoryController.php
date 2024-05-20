@@ -27,7 +27,16 @@ class CategoryController extends Controller
     {
         $validatedData = $request->validated();
         $record = Category::create($validatedData);
+
         if ($record) {
+            if ($request->hasFile('cover_image')) {
+                $image = $request->file('cover_image');
+                $imageName = time().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path('images'), $imageName);
+                $record->cover_image = 'images/' . $imageName;
+                $record->save();
+            }
+
             return ApiResponse::sendResponse(201, 'Category Created Successfully', $record);
         }
     }
@@ -49,11 +58,27 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, $id)
     {
-        $category = Category::findOrFail($id);
         $validatedData = $request->validated();
-        $category->update($validatedData);
-        return ApiResponse::sendResponse(200, 'Category Updated Successfully', $category);
+        $record = Category::find($id);
+
+        if ($record) {
+            $record->fill($validatedData);
+            if ($request->hasFile('cover_image')) {
+                if ($record->cover_image && file_exists(public_path($record->cover_image))) {
+                    unlink(public_path($record->cover_image));
+                }
+                $image = $request->file('cover_image');
+                $imageName = time().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path('images'), $imageName);
+                $record->cover_image = 'images/' . $imageName;
+            }
+            $record->save();
+            return ApiResponse::sendResponse(200, 'Category Updated Successfully', $record);
+        } else {
+            return ApiResponse::sendResponse(404, 'Category Not Found');
+        }
     }
+
 
 
     /**
@@ -62,8 +87,24 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
+
+        if ($category->cover_image) {
+            $imagePath = public_path($category->cover_image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
         $category->delete();
-        if($category)
-            return ApiResponse::sendResponse(200, 'Category Deleted Successfully');
+
+        return ApiResponse::sendResponse(200, 'Category Deleted Successfully');
+    }
+
+    public function getProducts($id){
+        $category = Category::find($id);
+        if($category){
+            $products = $category->products;
+            return ApiResponse::sendResponse(200, 'Products Retrieved Successfully', $products);
+        }
+        return ApiResponse::sendResponse(404, 'Category Not Found');
     }
 }

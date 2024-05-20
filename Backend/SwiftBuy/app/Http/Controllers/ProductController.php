@@ -6,6 +6,9 @@ use App\Helpers\ApiResponse;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Models\ProductImage;
 
 class ProductController extends Controller
 {
@@ -23,13 +26,15 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProductRequest $request)
+    public function store(ProductRequest  $request)
     {
         $data = $request->validated();
         $product = Product::create($data);
+        
         if($product)
             return ApiResponse::sendResponse(201,'Product Created Successfully',$product );
     }
+
 
     /**
      * Display the specified resource.
@@ -44,7 +49,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
         $product = Product::findOrFail($id);
         $validatedData = $request->validated();
