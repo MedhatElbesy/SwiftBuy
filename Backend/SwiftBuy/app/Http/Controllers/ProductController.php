@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ApiResponse;
+use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -12,54 +14,52 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $products = Product::all();
+        if ($products) {
+            return ApiResponse::sendResponse(201, 'All Products', $products);
+        }
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+        $data = $request->validated();
+        $product = Product::create($data);
+        if($product)
+            return ApiResponse::sendResponse(201,'Product Created Successfully',$product );
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Product $product)
-    {
-        //
+        $product = Product::findOrFail($id);
+        if($product)
+            return ApiResponse::sendResponse(200,'Product',$product);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, $id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $validatedData = $request->validated();
+        $product->update($validatedData);
+        return ApiResponse::sendResponse(200, 'Product Updated Successfully', $product);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $product->delete();
+        if($product)
+            return ApiResponse::sendResponse(200,'Product Deleted Successfully');
     }
 }
