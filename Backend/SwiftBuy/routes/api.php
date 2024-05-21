@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
 use Illuminate\Http\Request;
@@ -21,6 +23,8 @@ Route::middleware('api')->group(function () {
     Route::resource('products', ProductController::class);
     Route::resource('product_images', ProductImageController::class);
     Route::get('/categories/{id}/products', [CategoryController::class, 'getProducts']);
+    Route::resource('orders', OrderController::class);
+    Route::resource('order-items', OrderItemController::class);
 
 });
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

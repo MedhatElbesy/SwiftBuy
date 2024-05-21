@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ApiResponse;
+use App\Http\Requests\OrderItemRequest;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 
@@ -12,23 +14,21 @@ class OrderItemController extends Controller
      */
     public function index()
     {
-        //
+        $orderItem = OrderItem::all();
+        return ApiResponse::sendResponse(200,"All Order Details",$orderItem);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(OrderItemRequest $request)
     {
-        //
+        // $data = $request->validated();
+        // $product = OrderItem::create($data);
+
+        // if($product)
+        //     return ApiResponse::sendResponse(201,'ProductItem Created Successfully',$product );
     }
 
     /**
