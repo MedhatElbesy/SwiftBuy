@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ApiResponse;
-use App\Http\Requests\OrderItemRequest;
-use App\Models\OrderItem;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class OrderItemController extends Controller
@@ -14,7 +13,7 @@ class OrderItemController extends Controller
      */
     public function index()
     {
-        $orderItem = OrderItem::all();
+        $orderItem = Order::with('items')->get();
         return ApiResponse::sendResponse(200,"All Order Details",$orderItem);
     }
 
@@ -22,8 +21,28 @@ class OrderItemController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(OrderItemRequest $request)
+    public function store(Request $request)
     {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'date' => 'required|date',
+            'total_price' => 'required|numeric',
+            'status' => 'required|in:0,1',
+            'items' => 'array',
+            'items.*.product_id' => 'required|exists:products,id',
+            'items.*.quantity' => 'required|integer',
+            'items.*.price' => 'required|numeric'
+        ]);
+
+        $order = Order::create($request->only(['user_id', 'date', 'total_price', 'status']));
+
+        if ($request->has('items')) {
+            foreach ($request->items as $item) {
+                $order->items()->create($item);
+            }
+        }
+
+        return response()->json($order->load('items'), 201);
         // $data = $request->validated();
         // $product = OrderItem::create($data);
 
@@ -34,32 +53,51 @@ class OrderItemController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(OrderItem $orderItem)
+    public function show($id)
     {
-        //
-    }
+        return Order::with('items')->findOrFail($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(OrderItem $orderItem)
-    {
-        //
     }
-
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, OrderItem $orderItem)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'date' => 'required|date',
+            'total_price' => 'required|numeric',
+            'status' => 'required|in:0,1',
+            'items' => 'array',
+            'items.*.product_id' => 'required|exists:products,id',
+            'items.*.quantity' => 'required|integer',
+            'items.*.price' => 'required|numeric'
+        ]);
+
+        $order = Order::findOrFail($id);
+        $order->update($request->only(['user_id', 'date', 'total_price', 'status']));
+
+        // Update or create items
+        if ($request->has('items')) {
+            foreach ($request->items as $itemData) {
+                $order->items()->updateOrCreate(
+                    ['id' => $itemData['id'] ?? null],
+                    $itemData
+                );
+            }
+        }
+
+        return response()->json($order->load('items'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(OrderItem $orderItem)
+    public function destroy($id)
     {
-        //
+        $order = Order::findOrFail($id);
+        $order->delete();
+
+        return response()->json(null, 204);
     }
 }

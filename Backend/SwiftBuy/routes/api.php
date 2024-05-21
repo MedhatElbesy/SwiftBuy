@@ -25,6 +25,11 @@ Route::middleware('api')->group(function () {
     Route::get('/categories/{id}/products', [CategoryController::class, 'getProducts']);
     Route::resource('orders', OrderController::class);
     Route::resource('order-items', OrderItemController::class);
+    Route::get('users/{user_id}/orders/{order_id}', [OrderController::class, 'getOrderForUser']);
+    Route::get('users/{user_id}/orders', [OrderController::class, 'getOrdersForUser']);
+    Route::get('products/search', [ProductController::class, 'search']);
+
+
 
 });
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

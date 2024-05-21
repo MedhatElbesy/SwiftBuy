@@ -22,19 +22,16 @@ class OrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id'     => 'required|exists:users,id',
-            'date'        => 'required|date',
+            'user_id' => 'required|exists:users,id',
+            'date' => 'required|date',
             'total_price' => 'required|numeric',
-            'status'      => 'required',
+            'status' => 'required|in:0,1',
+            'items' => 'array',
+            'items.*.product_id' => 'required|exists:products,id',
+            'items.*.order_id' => 'required|exists:orders,id',
+            'items.*.quantity' => 'required|integer',
+            'items.*.price' => 'required|numeric'
         ];
     }
 
-    public function messages(): array
-    {
-        return [
-            'user_id.required' => 'A User Id is required',
-            'total_price.required' => 'A Total Price is required',
-            'status.required' => 'A Status is required',
-        ];
-    }
 }

@@ -6,9 +6,6 @@ use App\Helpers\ApiResponse;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use App\Models\ProductImage;
 
 class ProductController extends Controller
 {
@@ -30,7 +27,7 @@ class ProductController extends Controller
     {
         $data = $request->validated();
         $product = Product::create($data);
-        
+
         if($product)
             return ApiResponse::sendResponse(201,'Product Created Successfully',$product );
     }
@@ -66,5 +63,26 @@ class ProductController extends Controller
         $product->delete();
         if($product)
             return ApiResponse::sendResponse(200,'Product Deleted Successfully');
+    }
+    /**
+     * Search for products
+     *
+     * @param Request $request
+     * @return $products
+     */
+    public function search(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|min:1'
+        ]);
+
+        $searchQuery = $request->input('name');
+        $products = Product::where('name', 'like', '%' . $searchQuery . '%')->get();
+
+        if ($products->isEmpty()) {
+            return response()->json(['message' => 'No products found'], 404);
+        }
+
+        return ApiResponse::sendResponse(200,"Product is",$products);
     }
 }
