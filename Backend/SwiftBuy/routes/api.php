@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemController;
+use App\Http\Controllers\PermisionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
 use Illuminate\Http\Request;
@@ -28,13 +30,18 @@ Route::middleware('api')->group(function () {
     Route::get('users/{user_id}/orders/{order_id}', [OrderController::class, 'getOrderForUser']);
     Route::get('users/{user_id}/orders', [OrderController::class, 'getOrdersForUser']);
     Route::get('products/search', [ProductController::class, 'search']);
-
+    Route::resource('permisions',PermisionController::class);
 
 
 });
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::controller(AuthController::class)->group(function (){
+    Route::post('register','register');
+    Route::post('login','login');
+    Route::post('logout','logout')->middleware('auth:sanctum');
 });
+
+
 
 
 
