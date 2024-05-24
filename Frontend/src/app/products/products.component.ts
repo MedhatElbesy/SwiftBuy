@@ -1,5 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Product } from '../models/product';
+import { ProductService } from '../services/product.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-products',
@@ -8,31 +11,21 @@ import { Component } from '@angular/core';
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
-export class ProductsComponent {
-  products: any[] = [
-    {
-      title: 'Product 1',
-      price: 10,
-      description: 'Description 1',
-      stock: 5,
-      rating: 4.5,
-      status: '1'
-    },
-    {
-      title: 'Product 2',
-      price: 20,
-      description: 'Description 2',
-      stock: 10,
-      rating: 3.5,
-      status: '1'
-    },
-    {
-      title: 'Product 3',
-      price: 30,
-      description: 'Description 3',
-      stock: 15,
-      rating: 5,
-      status: '1'
+export class ProductsComponent implements OnInit {
+  products: Product[] = [];
+  sub:Subscription| null = null;
+
+  constructor(private productService: ProductService) { }
+  ngOnInit(): void {
+    this.sub = this.productService.getAllProducts().subscribe({
+      next: data=>{
+        this.products = data;}
     }
-  ]
+    )
+  }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
+  }
+
 }
