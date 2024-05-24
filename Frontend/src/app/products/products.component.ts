@@ -3,25 +3,39 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from '../models/product';
 import { ProductService } from '../services/product.service';
 import { Subscription } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,FormsModule],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
 export class ProductsComponent implements OnInit {
   products: Product[] = [];
-  sub:Subscription| null = null;
+  sub: Subscription | null = null;
+  filteredProducts: Product[] = [];
+  searchQuery: string = '';
 
   constructor(private productService: ProductService) { }
   ngOnInit(): void {
     this.sub = this.productService.getAllProducts().subscribe({
       next: data=>{
-        this.products = data;}
+        this.products = data;
+        this.filteredProducts = data;
+      }
     }
     )
+  }
+  onSearch(): void {
+    if (this.searchQuery) {
+      this.filteredProducts = this.products.filter(product =>
+        product.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    } else {
+      this.filteredProducts = this.products;
+    }
   }
 
   ngOnDestroy(): void {
