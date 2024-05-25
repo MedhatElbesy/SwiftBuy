@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->enum('rating',[1,2,3,4,5]);
             $table->enum('status',[0,1]);
-            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade'); // Foreign key
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->timestamps();
         });
     }

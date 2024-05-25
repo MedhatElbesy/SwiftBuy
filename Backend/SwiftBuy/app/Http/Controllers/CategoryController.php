@@ -33,7 +33,7 @@ class CategoryController extends Controller
                 $image = $request->file('cover_image');
                 $imageName = time().'.'.$image->getClientOriginalExtension();
                 $image->move(public_path('images'), $imageName);
-                $record->cover_image = 'images/' . $imageName;
+                $record->cover_image = 'category/' . $imageName;
                 $record->save();
             }
 

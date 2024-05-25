@@ -29,6 +29,13 @@ class ProductController extends Controller
         $product = Product::create($data);
 
         if($product)
+            if($request->hasFile('image')){
+                $image = $request->file('image');
+                $imageName = time().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path('images'), $imageName);
+                $product->cover_image = 'product/' . $imageName;
+                $product->save();
+            }
             return ApiResponse::sendResponse(201,'Product Created Successfully',$product );
     }
 

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      */
@@ -81,7 +82,7 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
         $order->delete();
-        return ApiResponse::sendResponse(204,"Order Deleted Successfully",);
+        return ApiResponse::sendResponse(204,"Order Deleted Successfully");
     }
 
 

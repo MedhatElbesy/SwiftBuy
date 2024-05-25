@@ -2,22 +2,129 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ApiResponse;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\StoreUserRequest;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+/**
+     * Display all users
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $users = User::latest()->paginate(10);
 
+        return view('users.index', compact('users'));
+    }
+
+    /**
+     * Show form for creating user
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('users.create');
+    }
+
+    /**
+     * Store a newly created user
+     *
+     * @param User $user
+     * @param StoreUserRequest $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function store(User $user, StoreUserRequest $request)
+    {
+        //For demo purposes only. When creating user or inviting a user
+        // you should create a generated random password and email it to the user
+        $user->create(array_merge($request->validated(), [
+            'password' => 'test'
+        ]));
+
+        return redirect()->route('users.index')
+            ->withSuccess(__('User created successfully.'));
+    }
+
+    /**
+     * Show user data
+     *
+     * @param User $user
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show(User $user)
+    {
+        return view('users.show', [
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * Edit user data
+     *
+     * @param User $user
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(User $user)
+    {
+        return view('users.edit', [
+            'user' => $user,
+            'userRole' => $user->roles->pluck('name')->toArray(),
+            'roles' => Role::latest()->get()
+        ]);
+    }
+
+    /**
+     * Update user data
+     *
+     * @param User $user
+     * @param UpdateUserRequest $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update(User $user, UpdateUserRequest $request)
+    {
+        $user->update($request->validated());
+
+        $user->syncRoles($request->get('role'));
+
+        return redirect()->route('users.index')
+            ->withSuccess(__('User updated successfully.'));
+    }
+
+    /**
+     * Delete user data
+     *
+     * @param User $user
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(User $user)
+    {
+        $user->delete();
+
+        return redirect()->route('users.index')
+            ->withSuccess(__('User deleted successfully.'));
+    }
 
     public function getOrderForUser($user_id, $order_id)
     {
         $order = Order::where('user_id', $user_id)->where('id', $order_id)->with('items')->first();
 
         if (!$order) {
-            return response()->json(['message' => 'Order not found'], 404);
+            ApiResponse::sendResponse(200,"Order Notfound");
         }
 
-        return response()->json($order);
+        ApiResponse::sendResponse(200,"Order",$order);
     }
 }
