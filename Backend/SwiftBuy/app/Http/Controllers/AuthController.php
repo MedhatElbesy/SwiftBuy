@@ -68,8 +68,6 @@ class AuthController extends Controller
         }else{
             return ApiResponse::sendResponse(200,"Fail data");
         }
-
-
     }
 
     public function logout(Request $request){

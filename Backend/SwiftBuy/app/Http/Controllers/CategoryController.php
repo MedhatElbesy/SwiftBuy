@@ -16,7 +16,7 @@ class CategoryController extends Controller
     {
         $categories = Category::all();
         if ($categories) {
-            return ApiResponse::sendResponse(201, 'Category Created Successfully', $categories);
+            return ApiResponse::sendResponse(200, 'All Categories', $categories);
         }
     }
 

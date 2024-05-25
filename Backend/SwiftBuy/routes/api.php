@@ -30,8 +30,6 @@ Route::middleware('api')->group(function () {
     Route::get('users/{user_id}/orders/{order_id}', [OrderController::class, 'getOrderForUser']);
     Route::get('users/{user_id}/orders', [OrderController::class, 'getOrdersForUser']);
     Route::get('products/search', [ProductController::class, 'search']);
-    // Route::resource('permisions',PermisionController::class);
-
 
 });
 
