@@ -4,13 +4,15 @@ import { Product } from '../models/product';
 import { ProductService } from '../services/product.service';
 import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { CartService } from '../services/cart.service.';
+
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './products.component.html',
-  styleUrl: './products.component.css'
+  styleUrl: './products.component.css',
 })
 export class ProductsComponent implements OnInit {
   products: Product[] = [];
@@ -18,28 +20,53 @@ export class ProductsComponent implements OnInit {
   filteredProducts: Product[] = [];
   searchQuery: string = '';
 
-  constructor(private productService: ProductService) { }
+  constructor(
+    private productService: ProductService,
+    private cartService: CartService
+  ) {}
   ngOnInit(): void {
     this.sub = this.productService.getAllProducts().subscribe({
-      next: data=>{
+      next: (data) => {
         this.products = data;
         this.filteredProducts = data;
-      }
-    }
-    )
+      },
+    });
   }
   onSearch(): void {
     if (this.searchQuery) {
-      this.filteredProducts = this.products.filter(product =>
+      this.filteredProducts = this.products.filter((product) =>
         product.title.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     } else {
       this.filteredProducts = this.products;
     }
   }
+  addToCart(product: any): void {
+    const cart_id = localStorage.getItem('cart_id');
+
+
+    const newItem = {
+      product_id: product.id,
+      quantity: 1,
+      cart_id: cart_id,
+    };
+
+    this.cartService.addToCart(newItem).subscribe(
+      (response) => {
+        console.log('Item added to cart:', response);
+        if (!localStorage.getItem('cart_id')) {
+          localStorage.setItem('cart_id', response.data.id);
+        }
+
+      },
+      (error) => {
+        console.error('Error adding item to cart:', error);
+
+      }
+    );
+  }
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
   }
-
 }
