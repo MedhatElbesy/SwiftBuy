@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::prefix('api')->group(function () {
+Route::group([],function () {
     Route::resource('categories', CategoryController::class);
     Route::get('user/products',[ProductController::class, 'index']);
     Route::resource('product_images', ProductImageController::class);
@@ -40,14 +40,15 @@ Route::group(["prefix" => "admin/"],function(){
         Route::post('logout', 'logout')->middleware('auth:admin-api');
     });
 
-Route::group(["middleware" => "auth:admin-api"] , function(){
     Route::resource('products', ProductController::class);
+Route::group(["middleware" => "auth:admin-api"] , function(){
 
 });
 
 });
 
 Route::group(["prefix" => "user/"],function(){
+    Route::get('products',[ProductController::class, 'index']);
     Route::controller(AuthController::class)->group(function (){
         Route::post('register','register');
         Route::post('login','login');

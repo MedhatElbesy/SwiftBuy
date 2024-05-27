@@ -30,6 +30,7 @@ class ProductRequest extends FormRequest
             'price'       => 'required',
             'stock'       => 'required',
             'image'       => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'promotion'   => 'nullable',
             'category_id' => ['required',
                 Rule::exists('categories', 'id'),
             ],
@@ -39,11 +40,11 @@ class ProductRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'title.required' => 'A title is required and must be unique',
+            'title.required'       => 'A title is required and must be unique',
             'description.required' => 'A description is required',
-            'status.required' => 'A status is required',
-            'stock.required' => 'A stock image is required',
-            'price.required' => 'A stock price is required',
+            'status.required'      => 'A status is required',
+            'stock.required'       => 'A stock image is required',
+            'price.required'       => 'A stock price is required',
             'category_id.required' => 'Category ID is required and must exist',
         ];
     }
