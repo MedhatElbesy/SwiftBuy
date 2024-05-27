@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../services/cart.service.';
 
+
 @Component({
   selector: 'app-products',
   standalone: true,
@@ -60,7 +61,7 @@ export class ProductsComponent implements OnInit {
       },
       (error) => {
         console.error('Error adding item to cart:', error);
-        
+
       }
     );
   }
