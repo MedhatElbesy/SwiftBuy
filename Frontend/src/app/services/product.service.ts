@@ -17,4 +17,8 @@ export class ProductService {
       map(response => response.data as Product[])
     );
   }
+  addProduct(prd:Product){
+    return this.http.post<any>(this.baseUrl,prd);
+  }
+
 }
