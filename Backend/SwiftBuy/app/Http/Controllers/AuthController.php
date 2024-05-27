@@ -15,8 +15,9 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(),
         [
             'name' => ['required','string'],
-            'email' => ['required'],
-            'password' => ['required']
+            'email' => 'required|unique:users,email',
+            'password' => ['required'],
+            'username' => ['nullable']
         ],[],[
             'name' => 'Name',
             'email' => 'Email',
@@ -26,52 +27,49 @@ class AuthController extends Controller
         if($validator->fails()){
             return 'no';
         }
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->email)
+            'password' => bcrypt($request->password)
         ]);
         $data['token'] = $user->createToken("apitoken")->plainTextToken;
         $data['name'] = $user->name;
-        // return $data;
         return ApiResponse::sendResponse(200,"Register Success", $data);
 
 
     }
+    public function login(Request $request) {
+    $validator = Validator::make($request->all(), [
+        'email' => 'required|email|exists:users,email',
+        'password' => 'required',
+    ], [], [
+        'email' => 'Email',
+        'password' => 'Password',
+    ]);
 
-    public function login(Request $request){
-
-        $validator = Validator::make($request->all(),
-        [
-            'email' => ['required'],
-            'password' => ['required']
-        ],[],[
-            'email' => 'Email',
-            'password' > 'Password'
-        ]);
-
-        if($validator->fails()){
-            return ApiResponse::sendResponse(200,"Fail");
-        }
-
-        $user = User::find([
-            'email' => $request->email,
-            'password' => Hash::make($request->email)
-        ]);
-
-        if(Auth::attempt(['email' => $request->email,'password' => $request->email])){
-            $user = Auth::user();
-            $data['token'] = $user->createToken("apitoken")->plainTextToken;
-            $data['name'] = $user->name;
-            return ApiResponse::sendResponse(200,"Login Success", $data);
-        }else{
-            return ApiResponse::sendResponse(200,"Fail data");
-        }
+    if ($validator->fails()) {
+        return ApiResponse::sendResponse(200, "Fail");
     }
 
+    $user = User::where('email', $request->email)->first();
+
+    if (!$user || !Hash::check($request->password, $user->password)) {
+        return ApiResponse::sendResponse(200, "Fail data");
+    }
+
+    $token = $user->createToken('apitoken')->plainTextToken;
+
+    $data = [
+        'token' => $token,
+        'name' => $user->name,
+    ];
+
+    return ApiResponse::sendResponse(200, "Login Success", $data);
+    }
     public function logout(Request $request){
         $request->user()->currentAccessToken()->delete();
         return ApiResponse::sendResponse(200,"Logedout Success");
     }
 }
+
+

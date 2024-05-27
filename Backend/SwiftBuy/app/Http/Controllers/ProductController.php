@@ -12,11 +12,18 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::all();
+        $products = Product::where(function($q) use($request){
+            if ($request->search) {
+
+                $q->where('title', 'LIKE', '%' . $request->search . '%');
+
+            }
+        })->
+        get();
         if ($products) {
-            return ApiResponse::sendResponse(201, 'All Products', $products);
+            return ApiResponse::sendResponse(200, 'All Products', $products);
         }
     }
 
@@ -77,19 +84,19 @@ class ProductController extends Controller
      * @param Request $request
      * @return $products
      */
-    public function search(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|min:1'
-        ]);
+    // public function search(Request $request)
+    // {
+    //     $request->validate([
+    //         'name' => 'required|string|min:1'
+    //     ]);
 
-        $searchQuery = $request->input('name');
-        $products = Product::where('name', 'like', '%' . $searchQuery . '%')->get();
+    //     $searchQuery = $request->input('name');
+    //     $products = Product::where('name', 'like', '%' . $searchQuery . '%')->get();
 
-        if ($products->isEmpty()) {
-            return response()->json(['message' => 'No products found'], 404);
-        }
+    //     if ($products->isEmpty()) {
+    //         return response()->json(['message' => 'No products found'], 404);
+    //     }
 
-        return ApiResponse::sendResponse(200,"Product is",$products);
-    }
+    //     return ApiResponse::sendResponse(200,"Product is",$products);
+    // }
 }

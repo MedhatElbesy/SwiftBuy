@@ -6,9 +6,11 @@ use App\Helpers\ApiResponse;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class CategoryRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -17,29 +19,23 @@ class CategoryRequest extends FormRequest
         return true;
     }
 
-    // public function failedValidation(Validator $validator)
-    // {
-    //     if ($this->is('api/*')) {
-    //         $response = ApiResponse::sendResponse(442, 'Validation Errors', $validator->errors()->all());
-    //         throw new ValidationException($validator, $response);
-    //     }
-    // }
-
     /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules()
     {
         return [
-            'name'        => 'required|unique:categories|max:255',
-            'description' => 'required',
-            'status'      => 'required',
-            'cover_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-
+            'name' => 'sometimes|required|string|max:255',
+            'description' => 'sometimes|required|string',
+            'status' => 'sometimes|required|boolean',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
+
+
+
 
     public function messages(): array
     {

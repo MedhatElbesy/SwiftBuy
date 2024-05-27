@@ -56,28 +56,36 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
+
     public function update(CategoryRequest $request, $id)
     {
-        $validatedData = $request->validated();
-        $record = Category::find($id);
+        $category = Category::find($id);
 
-        if ($record) {
-            $record->fill($validatedData);
-            if ($request->hasFile('cover_image')) {
-                if ($record->cover_image && file_exists(public_path($record->cover_image))) {
-                    unlink(public_path($record->cover_image));
-                }
-                $image = $request->file('cover_image');
-                $imageName = time().'.'.$image->getClientOriginalExtension();
-                $image->move(public_path('images'), $imageName);
-                $record->cover_image = 'images/' . $imageName;
-            }
-            $record->save();
-            return ApiResponse::sendResponse(200, 'Category Updated Successfully', $record);
-        } else {
-            return ApiResponse::sendResponse(404, 'Category Not Found');
+        if (!$category) {
+            return ApiResponse::sendResponse(404, 'Category not found');
         }
+
+        $validatedData = $request->validated();
+
+        $category->fill($validatedData);
+
+        if ($request->hasFile('cover_image')) {
+            $image = $request->file('cover_image');
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+            $category->cover_image = 'category/' . $imageName;
+        }
+
+        $category->save();
+
+        return ApiResponse::sendResponse(200, 'Category updated successfully', $category);
     }
+
+
+
+
+
+
 
 
 
