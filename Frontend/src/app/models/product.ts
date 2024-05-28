@@ -9,4 +9,5 @@ export class Product {
     public status: '0' | '1',
     public category_id: number
   ) { }
+
 }
