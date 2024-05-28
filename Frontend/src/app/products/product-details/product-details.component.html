@@ -1,0 +1,20 @@
+<div class="container mt-5">
+  <div class="card mt-5 mx-auto w-50">
+    <div class="card-header">
+      <h5 class="card-title">{{ product?.title }}</h5>
+      <img [src]="imageDirectoryPath + product?.image" alt="kk">
+      <h1>{{product?.image}}</h1>
+      <h6 class="card-subtitle text-muted">Price: ${{ product?.price }}</h6>
+    </div>
+    <div class="card-body">
+      <p class="card-text">{{ product?.description }}</p>
+      <p class="card-text">Stock: {{ product?.stock }}</p>
+      <p class="card-text">Rating: {{ product?.rating }}</p>
+      <p class="card-text">Status: {{ product?.status === '1' ? 'Available' : 'Unavailable' }}</p>
+    </div>
+    <div class="card-footer d-flex justify-content-between">
+      <button class="btn btn-success" (click)="addToCart(product)">Add To Cart </button>
+    </div>
+  </div>
+</div>
+

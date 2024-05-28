@@ -34,4 +34,5 @@ class Product extends Model
         return $this->belongsToMany(Cart::class)->withPivot('quantity');
     }
 
+
 }

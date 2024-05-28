@@ -23,4 +23,9 @@ export class ProfileService {
       map(response => response.data)
     );
   }
+  updateUser(id: number, userData: Partial<User>): Observable<User> {
+    return this.http.put<{ status: string, msg: string, data: User }>(`${this.baseURL}${id}`, userData).pipe(
+      map(response => response.data)
+    );
+  }
 }
