@@ -23,7 +23,7 @@
           <p class="card-text">Status: {{ product.status === '1' ? 'Available' : 'Unavailable' }}</p>
         </div>
         <div class="card-footer d-flex justify-content-between">
-          <button class="btn btn-primary">Show Prod</button>
+          <a class="btn btn-primary" [routerLink]="['/products/', product.id]">Show Prod</a>
           <button class="btn btn-success" (click)="addToCart(product)">Add To Cart </button>
         </div>
       </div>

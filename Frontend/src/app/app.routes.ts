@@ -4,9 +4,11 @@ import { AdminComponent } from './admin/admin.component';
 import {ProductsComponent as ProductAdminComponent} from './admin/products/products.component'
 import { AddProductComponent } from './admin/products/add-product/add-product.component';
 import { ProfileComponentComponent } from './profile-component/profile-component.component';
+import { ProductDetailsComponent } from './products/product-details/product-details.component';
 
 export const routes: Routes = [
-  {path:"products",component:ProductsComponent},
+  { path: "products", component: ProductsComponent },
+  { path: "products/:id", component:ProductDetailsComponent},
   {
     path: "dashboard",
     component: AdminComponent,
