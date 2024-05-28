@@ -33,12 +33,12 @@ Route::middleware('auth:sanctum','api')->group(function () {
 Route::prefix('api')->middleware(['auth:sanctum','api','web'])->group(function () {
     Route::resource('categories', CategoryController::class);
     // Route::get('user/products',[ProductController::class, 'index']);
-    Route::resource('product_images', ProductImageController::class);
-    Route::get('/categories/{id}/products', [CategoryController::class, 'getProducts']);
+    // Route::resource('product_images', ProductImageController::class);
+    // Route::get('/categories/{id}/products', [CategoryController::class, 'getProducts']);
     // Route::resource('orders', OrderController::class);
-    Route::resource('order-items', OrderItemController::class);
-    Route::get('users/{user_id}/orders/{order_id}', [OrderController::class, 'getOrderForUser']);
-    Route::get('users/{user_id}/orders', [OrderController::class, 'getOrdersForUser']);
+    // Route::resource('order-items', OrderItemController::class);
+    // Route::get('users/{user_id}/orders/{order_id}', [OrderController::class, 'getOrderForUser']);
+    // Route::get('users/{user_id}/orders', [OrderController::class, 'getOrdersForUser']);
     // Route::get('user', [ProductController::class, 'search']);
 });
 
