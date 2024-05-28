@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Order } from '../models/order';
 
 @Component({
   selector: 'app-profile-component',
@@ -16,8 +17,10 @@ import { CommonModule } from '@angular/common';
 export class ProfileComponentComponent implements OnInit , OnDestroy
 {
   users:User[]=[];
+  orders: Order[] = [];
   user:User|null = null;
   sub:Subscription | null = null;
+  orderSub: Subscription | null = null;
   updateForm: FormGroup;
   constructor(public profileService:ProfileService,public router:Router, public fb:FormBuilder){
     this.updateForm = this.fb.group({
@@ -38,9 +41,14 @@ export class ProfileComponentComponent implements OnInit , OnDestroy
         gender: data.gender
       });
     });
+
+    this.orderSub = this.profileService.getUserOrders(userId).subscribe(data => {
+      this.orders = data;
+    });
   }
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
+    this.orderSub?.unsubscribe();
   }
   onSubmit(): void {
     if (this.user) {
