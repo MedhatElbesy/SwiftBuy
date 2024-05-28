@@ -3,103 +3,67 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ApiResponse;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Requests\UpdateUserRequest;
-use App\Http\Requests\StoreUserRequest;
+use Illuminate\Support\Facades\Hash;
+use PHPUnit\TextUI\XmlConfiguration\Validator;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-/**
-     * Display all users
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        $users = User::latest()->paginate(10);
+        $users = User::get();
 
-        return view('users.index', compact('users'));
+        return ApiResponse::sendResponse('200','All users',$users);
     }
 
-    /**
-     * Show form for creating user
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+    public function show($id)
     {
-        return view('users.create');
+        $user = User::find($id);
+        if (!$user) {
+            return ApiResponse::sendResponse(404, "User not found");
+        }
+        return ApiResponse::sendResponse(200, "User retrieved successfully", $user);
     }
 
-    /**
-     * Store a newly created user
-     *
-     * @param User $user
-     * @param StoreUserRequest $request
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function store(User $user, StoreUserRequest $request)
-    {
-        //For demo purposes only. When creating user or inviting a user
-        // you should create a generated random password and email it to the user
-        $user->create(array_merge($request->validated(), [
-            'password' => 'test'
-        ]));
 
-        return redirect()->route('users.index')
-            ->withSuccess(__('User created successfully.'));
-    }
-
-    /**
-     * Show user data
-     *
-     * @param User $user
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
+    public function update(Request $request, $id)
     {
-        return view('users.show', [
-            'user' => $user
+        $user = User::find($id);
+        if (!$user) {
+            return ApiResponse::sendResponse(404, "User not found");
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'sometimes|required|string',
+            'email' => 'sometimes|required|email|unique:users,email,' . $id,
+            'password' => 'sometimes|required|string|min:6',
         ]);
-    }
 
-    /**
-     * Edit user data
-     *
-     * @param User $user
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $user)
-    {
-        return view('users.edit', [
-            'user' => $user,
-            'userRole' => $user->roles->pluck('name')->toArray(),
-            'roles' => Role::latest()->get()
-        ]);
-    }
+        if ($validator->fails()) {
+            return ApiResponse::sendResponse(400, "Validation Error", $validator->errors());
+        }
 
-    /**
-     * Update user data
-     *
-     * @param User $user
-     * @param UpdateUserRequest $request
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function update(User $user, UpdateUserRequest $request)
-    {
-        $user->update($request->validated());
+        if ($request->has('name')) {
+            $user->name = $request->name;
+        }
+        if ($request->has('email')) {
+            $user->email = $request->email;
+        }
+        if ($request->has('password')) {
+            $user->password = Hash::make($request->password);
+        }
 
-        $user->syncRoles($request->get('role'));
+        $user->save();
 
-        return redirect()->route('users.index')
-            ->withSuccess(__('User updated successfully.'));
+        return ApiResponse::sendResponse(200, "User updated successfully", $user);
     }
 
     /**
