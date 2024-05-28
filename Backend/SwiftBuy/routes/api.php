@@ -23,8 +23,8 @@ use App\Http\Controllers\CartController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-
+Route::resource('users',UserController::class);
+Route::get('users/{user_id}/orders', [OrderController::class, 'getOrdersForUser']);
 // Route::prefix('api')->middleware(['auth:sanctum','api','web'])->group(function () {
 Route::prefix('api')->middleware(['auth:sanctum','api','web'])->group(function () {
     // Route::resource('categories', CategoryController::class);
