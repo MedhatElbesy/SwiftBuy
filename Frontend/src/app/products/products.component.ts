@@ -5,12 +5,13 @@ import { ProductService } from '../services/product.service';
 import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../services/cart.service.';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,RouterLink],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
 })
