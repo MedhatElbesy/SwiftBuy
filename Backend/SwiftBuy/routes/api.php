@@ -38,10 +38,12 @@ Route::prefix('api')->middleware(['auth:sanctum','api','web'])->group(function (
     // Route::resource('orders', OrderController::class);
     // Route::resource('order-items', OrderItemController::class);
     // Route::get('users/{user_id}/orders/{order_id}', [OrderController::class, 'getOrderForUser']);
+    // Route::get('user', [ProductController::class, 'search']);
     // Route::get('users/{user_id}/orders', [OrderController::class, 'getOrdersForUser']);
     // Route::get('user', [ProductController::class, 'search']);0
 });
 
+Route::get('users/{user_id}/orders', [OrderController::class, 'getOrdersForUser']);
 Route::group(["prefix" => "admin/"],function(){
     Route::controller(AdminController::class)->group(function () {
         //http://localhost:8000/api/admin/register
@@ -82,13 +84,3 @@ Route::group(["prefix" => "user/"],function(){
         Route::post('logout','logout')->middleware('auth:sanctum');
     });
 });
-
-
-
-
-
-
-
-
-
-
