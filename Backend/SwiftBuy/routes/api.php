@@ -11,6 +11,7 @@ use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,11 +23,14 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::resource('users',UserController::class);
+Route::middleware('auth:sanctum','api')->group(function () {
+    Route::resource('carts',CartController::class);
+    Route::get('user/products',[ProductController::class, 'index']);
+});
 
 
-Route::group([],function () {
-    // Route::resource('categories', CategoryController::class);
+Route::prefix('api')->middleware(['auth:sanctum','api','web'])->group(function () {
+    Route::resource('categories', CategoryController::class);
     // Route::get('user/products',[ProductController::class, 'index']);
     // Route::resource('product_images', ProductImageController::class);
     // Route::get('/categories/{id}/products', [CategoryController::class, 'getProducts']);
@@ -72,7 +76,7 @@ Route::group(["prefix" => "user/"],function(){
         Route::post('logout','logout')->middleware('auth:sanctum');
     });
 });
-
+Route::resource('users',UserController::class);
 
 
 

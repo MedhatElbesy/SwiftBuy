@@ -24,4 +24,18 @@ class Product extends Model
         });
     }
 
+<<<<<<< HEAD
+    // public function images()
+    // {
+    //     return $this->hasMany(ProductImage::class);
+    // }
+
+    public function carts()
+    {
+        return $this->belongsToMany(Cart::class)->withPivot('quantity');
+    }
+
+
+=======
+>>>>>>> 0aa6fa64030bacc9c2d56f1e7492819d0105f730
 }
