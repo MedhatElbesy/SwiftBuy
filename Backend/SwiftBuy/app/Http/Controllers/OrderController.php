@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Helpers\ApiResponse;
 use App\Http\Requests\OrderRequest;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    
+
     /**
      * Display a listing of the resource.
      */
@@ -25,13 +26,20 @@ class OrderController extends Controller
     public function store(OrderRequest $request)
     {
         $request->validated();
-        $order = Order::create($request->only(['user_id', 'date', 'total_price', 'status']));
+        $order = Order::create($request->only(['user_id', 'date','status']));
 
+        $total = [] ;
         if ($request->has('items')) {
-            foreach ($request->items as $item) {
+            foreach ($request->items as $key => $item) {
+                $product = Product::find($item['product_id']);
+                $total [] = $item['quantity'] * $product->final_price ;
                 $order->items()->create($item);
             }
         }
+        $final = array_sum($total);
+
+        $order->total_price = $final ;
+        $order->save();
         return ApiResponse::sendResponse(201,"Order Created Successfully",$order->load('items'));
     }
 

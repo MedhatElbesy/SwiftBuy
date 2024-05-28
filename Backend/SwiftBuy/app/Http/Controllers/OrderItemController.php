@@ -23,6 +23,7 @@ class OrderItemController extends Controller
      */
     public function store(Request $request)
     {
+        dd(33);
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'date' => 'required|date',
@@ -34,7 +35,14 @@ class OrderItemController extends Controller
             'items.*.price' => 'required|numeric'
         ]);
 
-        $order = Order::create($request->only(['user_id', 'date', 'total_price', 'status']));
+
+
+        $total_price = 0 ;
+        foreach($request->items as $key => $item){
+            dd($item);
+        }
+        $order = Order::create($request->only(['user_id', 'date', 'status']));
+        $order->total_price = $total_price ;
 
         if ($request->has('items')) {
             foreach ($request->items as $item) {
@@ -43,11 +51,6 @@ class OrderItemController extends Controller
         }
 
         return response()->json($order->load('items'), 201);
-        // $data = $request->validated();
-        // $product = OrderItem::create($data);
-
-        // if($product)
-        //     return ApiResponse::sendResponse(201,'ProductItem Created Successfully',$product );
     }
 
     /**

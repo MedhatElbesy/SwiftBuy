@@ -16,9 +16,7 @@ class ProductController extends Controller
     {
         $products = Product::where(function($q) use($request){
             if ($request->search) {
-
                 $q->where('title', 'LIKE', '%' . $request->search . '%');
-
             }
         })->
         get();
@@ -32,8 +30,15 @@ class ProductController extends Controller
      */
     public function store(ProductRequest  $request)
     {
+        $request->merge(['promotion' => $request->input('promotion', 0)]);
+
         $data = $request->validated();
-        $product = Product::create($data);
+        $product = Product::create($request->only(['title','description','stock','price','	rating','status','category_id','created_at','updated_at','image','promotion']));
+
+        $price = ($data['price'] -(($data['price'] * $data['promotion'])/100));
+        $product->final_price = $price;
+
+        $product->save();
 
         if($product)
             if($request->hasFile('image')){

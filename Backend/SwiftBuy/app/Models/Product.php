@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
-    protected $fillable = ['title','description','stock','price','rating','status','image','category_id'];
+    protected $fillable = ['title','description','stock','price','rating','status','image','category_id','promotion','final_price'];
 
 
     public function category()
@@ -24,6 +24,7 @@ class Product extends Model
         });
     }
 
+<<<<<<< HEAD
     // public function images()
     // {
     //     return $this->hasMany(ProductImage::class);
@@ -35,4 +36,6 @@ class Product extends Model
     }
 
 
+=======
+>>>>>>> 0aa6fa64030bacc9c2d56f1e7492819d0105f730
 }
