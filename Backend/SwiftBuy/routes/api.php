@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,15 +22,23 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::prefix('api')->group(function () {
-    Route::resource('categories', CategoryController::class);
+Route::middleware('auth:sanctum','api')->group(function () {
+    Route::resource('carts',CartController::class);
     Route::get('user/products',[ProductController::class, 'index']);
+});
+
+
+Route::prefix('api')->middleware(['auth:sanctum','api','web'])->group(function () {
+    Route::resource('categories', CategoryController::class);
+    // Route::get('user/products',[ProductController::class, 'index']);
     Route::resource('product_images', ProductImageController::class);
     Route::get('/categories/{id}/products', [CategoryController::class, 'getProducts']);
     Route::resource('orders', OrderController::class);
     Route::resource('order-items', OrderItemController::class);
     Route::get('users/{user_id}/orders/{order_id}', [OrderController::class, 'getOrderForUser']);
     Route::get('users/{user_id}/orders', [OrderController::class, 'getOrdersForUser']);
+
+
     // Route::get('products/search', [ProductController::class, 'search']);
 });
 

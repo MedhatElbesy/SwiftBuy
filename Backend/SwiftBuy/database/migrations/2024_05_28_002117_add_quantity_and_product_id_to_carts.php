@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carts', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade'); // Foreign key
-            $table->string('price')->default('0'); ;
-            $table->timestamps();
+        Schema::table('carts', function (Blueprint $table) {
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade'); 
+            $table->string('quantity');
         });
     }
 
@@ -24,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carts');
+        Schema::table('carts', function (Blueprint $table) {
+            //
+        });
     }
 };
