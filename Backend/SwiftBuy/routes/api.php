@@ -23,12 +23,9 @@ use App\Http\Controllers\CartController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::resource('categories', CategoryController::class);
-Route::resource('products', ProductController::class);
-
 Route::middleware('auth:sanctum','api')->group(function () {
     Route::resource('carts',CartController::class);
-    // Route::get('user/products',[ProductController::class, 'index']);
+    Route::get('user/products',[ProductController::class, 'index']);
 });
 
 
@@ -69,7 +66,12 @@ Route::group(["prefix" => "admin/"],function(){
 
 Route::group(["prefix" => "user/"],function(){
     //http://localhost:8000/api/user/products must be login as user and featch with token
-    Route::middleware(['auth:api'])->get('products', [ProductController::class, 'index']);
+
+
+    Route::group(["middleware" => "auth:api"] , function(){
+        Route::get('products', [ProductController::class, 'index']);
+        Route::resource('carts',CartController::class);
+    });
 
     Route::controller(AuthController::class)->group(function (){
         //http://localhost:8000/api/user/register
