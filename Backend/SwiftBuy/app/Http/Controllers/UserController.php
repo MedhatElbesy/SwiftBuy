@@ -23,7 +23,6 @@ class UserController extends Controller
         return ApiResponse::sendResponse('200','All users',$users);
     }
 
-
     public function show($id)
     {
         $user = User::find($id);
@@ -32,7 +31,6 @@ class UserController extends Controller
         }
         return ApiResponse::sendResponse(200, "User retrieved successfully", $user);
     }
-
 
     public function update(Request $request, $id)
     {
@@ -45,6 +43,7 @@ class UserController extends Controller
             'name' => 'sometimes|required|string',
             'email' => 'sometimes|required|email|unique:users,email,' . $id,
             'password' => 'sometimes|required|string|min:6',
+            'gender'=> 'required'
         ]);
 
         if ($validator->fails()) {
@@ -64,21 +63,6 @@ class UserController extends Controller
         $user->save();
 
         return ApiResponse::sendResponse(200, "User updated successfully", $user);
-    }
-
-    /**
-     * Delete user data
-     *
-     * @param User $user
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
-    {
-        $user->delete();
-
-        return redirect()->route('users.index')
-            ->withSuccess(__('User deleted successfully.'));
     }
 
     public function getOrderForUser($user_id, $order_id)

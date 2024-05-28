@@ -8,7 +8,7 @@ class UserRegisterRequest extends FormRequest
 {
     public function authorize()
     {
-        return true; 
+        return true;
     }
 
     public function rules()
@@ -18,7 +18,8 @@ class UserRegisterRequest extends FormRequest
             'email' => 'required|unique:users,email',
             'password' => ['required'],
             'username' => ['nullable'],
-            'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048']
+            'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            'gender'=>['required','in:male,female']
         ];
     }
 

@@ -25,14 +25,12 @@ class OrderController extends Controller
      */
     public function store(OrderRequest $request)
     {
-
         $request->validated();
         $order = Order::create($request->only(['user_id', 'date','status']));
 
         $total = [] ;
         if ($request->has('items')) {
             foreach ($request->items as $key => $item) {
-
                 $product = Product::find($item['product_id']);
                 $total [] = $item['quantity'] * $product->final_price ;
                 $order->items()->create($item);

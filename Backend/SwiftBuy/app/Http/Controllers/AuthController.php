@@ -19,7 +19,7 @@ class AuthController extends Controller
             $photo = $request->file('photo');
             $photoName = time() . '.' . $photo->getClientOriginalExtension();
             $photo->move(public_path('images'), $photoName);
-            $photoPath = 'images/' . $photoName;
+            $photoPath = 'user/' . $photoName;
         } else {
             $photoPath = null;
         }
@@ -28,7 +28,8 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'photo' => $photoPath
+            'photo' => $photoPath,
+            'gender'=>$request->gender
         ]);
 
         $data['token'] = $user->createToken("apitoken")->plainTextToken;
@@ -50,13 +51,13 @@ class AuthController extends Controller
             'token' => $token,
             'name'  => $user->name,
             'email' => $user->email,
-            'photo' => $user->photo
+            'photo' => $user->photo,
         ];
 
         return ApiResponse::sendResponse(200, "Login Success", $data);
     }
 
-    
+
     public function logout(Request $request){
         $request->user()->currentAccessToken()->delete();
         return ApiResponse::sendResponse(200,"Logedout Success");

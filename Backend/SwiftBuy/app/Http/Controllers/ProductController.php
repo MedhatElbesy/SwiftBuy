@@ -16,9 +16,7 @@ class ProductController extends Controller
     {
         $products = Product::where(function($q) use($request){
             if ($request->search) {
-
                 $q->where('title', 'LIKE', '%' . $request->search . '%');
-
             }
         })->
         get();
