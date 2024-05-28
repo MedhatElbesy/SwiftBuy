@@ -1,7 +1,11 @@
-<p>profile-component works!</p>
-<div>
-  <!-- @for (item of users; track $index) {
-  <p>name: {{ item.name }} | email: {{ item.email }}</p>
-  } -->
-  <p>name: {{ user?.name }} | email: {{ user?.email }}| gender: {{ user?.gender }} | </p>
+
+<div class="container">
+  <div  class="card">
+    <div class="card-body">
+      <h5 class="card-title">User Details</h5>
+      <p class="card-text"><strong>Name:</strong> {{ user?.name }}</p>
+      <p class="card-text"><strong>Email:</strong> {{ user?.email }}</p>
+      <p class="card-text"><strong>Gender:</strong> {{ user?.gender }}</p>
+    </div>
+  </div>
 </div>
