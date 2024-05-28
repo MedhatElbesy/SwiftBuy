@@ -76,7 +76,7 @@ Route::group(["prefix" => "user/"],function(){
         Route::post('logout','logout')->middleware('auth:sanctum');
     });
 });
-
+Route::resource('users',UserController::class);
 
 
 
