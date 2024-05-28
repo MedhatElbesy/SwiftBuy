@@ -11,7 +11,7 @@ class ProductImageController extends Controller
     public function store(Request $request)
     {
         $images = $request->file('image');
-        $product_id = $request->input('product_id'); 
+        $product_id = $request->input('product_id');
 
         $imagePaths = [];
 

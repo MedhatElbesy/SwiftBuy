@@ -29,6 +29,7 @@ Route::middleware('auth:sanctum','api')->group(function () {
 });
 
 
+// Route::prefix('api')->middleware(['auth:sanctum','api','web'])->group(function () {
 Route::prefix('api')->middleware(['auth:sanctum','api','web'])->group(function () {
     Route::resource('categories', CategoryController::class);
     // Route::get('user/products',[ProductController::class, 'index']);
@@ -76,7 +77,6 @@ Route::group(["prefix" => "user/"],function(){
         Route::post('logout','logout')->middleware('auth:sanctum');
     });
 });
-Route::resource('users',UserController::class);
 
 
 
