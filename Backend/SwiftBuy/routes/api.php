@@ -30,7 +30,8 @@ use App\Http\Controllers\CartController;
 
 
 // Route::prefix('api')->middleware(['auth:sanctum','api','web'])->group(function () {
-// Route::prefix('api')->middleware(['auth:sanctum','api','web'])->group(function () {
+// Route::prefix('api')->group(function () {
+//     Route::post('user/products', [ProductController::class, 'store']);
     // Route::resource('categories', CategoryController::class);
     // Route::get('user/products',[ProductController::class, 'index']);
     // Route::resource('product_images', ProductImageController::class);
@@ -70,8 +71,8 @@ Route::group(["prefix" => "admin/"],function(){
 Route::group(["prefix" => "user/"],function(){
     //http://localhost:8000/api/user/products must be login as user and featch with token
 
-
-    Route::get('products', [ProductController::class, 'index']);
+    Route::resource('products', ProductController::class);
+    // Route::get('products', [ProductController::class, 'index']);
     // Route::group(["middleware" => "auth:api"] , function(){
 
         Route::resource('carts',CartController::class);
@@ -88,7 +89,7 @@ Route::group(["prefix" => "user/"],function(){
     });
 });
 
-Route::resource('orders', OrderController::class);
+// Route::resource('orders', OrderController::class);
 
 Route::get('users/{user_id}/orders', [OrderController::class, 'getOrdersForUser']);
 Route::resource("users",UserController::class);
