@@ -83,6 +83,7 @@ export class LoginComponent implements OnDestroy {
               this.localStorage.setValue('token', response.body.data.token); // Use response.body?.token
               this.localStorage.setValue('id', response.body.data.id);
               this.localStorage.setValue('name', response.body.data.name);
+              this.localStorage.setValue('role', 'admin');
               this.router.navigate(['/products']);
             },
             error: (error) => {
