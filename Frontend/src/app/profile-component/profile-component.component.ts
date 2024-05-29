@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Order } from '../models/order';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile-component',
@@ -60,14 +61,35 @@ export class ProfileComponentComponent implements OnInit , OnDestroy
   }
 
   deleteOrder(orderId: number): void {
-    this.profileService.deleteOrder(orderId).subscribe(
-      () => {
-        this.orders = this.orders.filter(order => order.id !== orderId);
-      },
-      error => {
-        console.error('Error deleting order', error);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.profileService.deleteOrder(orderId).subscribe(
+          () => {
+            this.orders = this.orders.filter(order => order.id !== orderId);
+            Swal.fire(
+              'Deleted!',
+              'Your order has been deleted.',
+              'success'
+            );
+          },
+          error => {
+            console.error('Error deleting order', error);
+            Swal.fire(
+              'Error!',
+              'There was an error deleting your order.',
+              'error'
+            );
+          }
+        );
       }
-    );
+    });
   }
 
 
