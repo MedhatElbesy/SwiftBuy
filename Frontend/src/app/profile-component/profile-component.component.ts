@@ -23,6 +23,7 @@ export class ProfileComponentComponent implements OnInit , OnDestroy
   sub:Subscription | null = null;
   orderSub: Subscription | null = null;
   updateForm: FormGroup;
+  baseUrl: string = 'http://localhost:8000/images/';
   constructor(public profileService:ProfileService,public router:Router, public fb:FormBuilder){
     this.updateForm = this.fb.group({
       name: [''],
