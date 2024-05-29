@@ -68,7 +68,7 @@ export class LoginComponent implements OnDestroy {
               this.localStorage.setValue('token', response.body.data.token);
               this.localStorage.setValue('name', response.body.data.name);
               this.localStorage.setValue('id', response.body.data.id);
-              this.router.navigate(['/products']);
+              this.router.navigate(['/']);
             },
             error: (error) => {
               console.log(error);
@@ -84,7 +84,7 @@ export class LoginComponent implements OnDestroy {
               this.localStorage.setValue('id', response.body.data.id);
               this.localStorage.setValue('name', response.body.data.name);
               this.localStorage.setValue('role', 'admin');
-              this.router.navigate(['/products']);
+              this.router.navigate(['/']);
             },
             error: (error) => {
               console.log(error);

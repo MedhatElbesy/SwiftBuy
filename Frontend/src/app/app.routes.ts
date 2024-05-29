@@ -15,9 +15,9 @@ import { AboutComponent } from './components/about/about.component';
 import { ContactComponent } from './components/contact/contact.component';
 
 export const routes: Routes = [
-    { path: '', component: UserHomeComponent },
-    { path: 'about', component: AboutComponent },
-    { path: 'contact', component: ContactComponent },
+  { path: '', component: UserHomeComponent },
+  { path: 'about', component: AboutComponent },
+  { path: 'contact', component: ContactComponent },
   { path: "products", component: ProductsComponent },
   { path: "products/:id", component:ProductDetailsComponent},
   {
