@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); 
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->date('date');
             $table->string('total_price');
-            $table->enum('status',[0,1]);
+            $table->enum('status',[0,1])->default(1);
             $table->timestamps();
         });
     }

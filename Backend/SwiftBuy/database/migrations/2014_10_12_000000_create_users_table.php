@@ -1,4 +1,5 @@
 <?php
+use App\Models\User;
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,9 +18,18 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('photo')->nullable();
+            $table->enum('gender',['male','female']);
             $table->rememberToken();
             $table->timestamps();
         });
+
+        User::create([
+            "name" => "user" ,
+            "email" => "user@user.com" ,
+            "password" => bcrypt("123456") ,
+            "gender" => "male"
+        ]);
     }
 
     /**
