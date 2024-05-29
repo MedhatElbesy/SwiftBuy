@@ -1,0 +1,21 @@
+header{
+    min-height: 85vh;
+    background-image: url('/assets/slide2.jpg');
+    background-size: cover;
+    margin-bottom: 30px;
+}
+.btn1{
+    border:none;
+    padding:10px;
+    margin: 5px 10px;
+    text-decoration: none;
+    background: #444040;
+    color:white;
+}
+.btn1:hover{
+    background: #f8956c;
+    transition: all 2s;
+}
+header .content{
+    padding-top: 200px;
+}

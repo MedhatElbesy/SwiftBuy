@@ -10,7 +10,14 @@ import { EditProductComponent } from './admin/products/edit-product/edit-product
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 
+import { UserHomeComponent } from '../app/components/user-home/user-home.component';
+import { AboutComponent } from './components/about/about.component';
+import { ContactComponent } from './components/contact/contact.component';
+
 export const routes: Routes = [
+    { path: '', component: UserHomeComponent },
+    { path: 'about', component: AboutComponent },
+    { path: 'contact', component: ContactComponent },
   { path: "products", component: ProductsComponent },
   { path: "products/:id", component:ProductDetailsComponent},
   {

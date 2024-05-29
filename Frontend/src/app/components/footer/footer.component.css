@@ -1,0 +1,19 @@
+footer{
+    bottom: 0;
+}
+.social i{
+    font-size: 25px;
+    padding: 0 10px;
+}
+.top{
+    background-color: #444040;
+}
+ul{
+    padding-top: 10px;
+}
+ul li{
+    list-style-type: none;
+}
+ul li:hover,h5:hover , .icon:hover{
+    color: #f8956c;
+}
