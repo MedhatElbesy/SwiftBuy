@@ -1,9 +1,8 @@
 <div class="container mt-5">
   <div class="card mt-5 mx-auto w-50">
     <div class="card-header">
-      <h5 class="card-title">{{ product?.title }}</h5>
-      <img [src]="imageDirectoryPath + product?.image" alt="kk">
-      <h1>{{product?.image}}</h1>
+      <h3 class="card-title text-center">{{ product?.title }}</h3>
+      <img [src]="imageDirectoryPath+product?.image" alt="not found" class="img-fluid w-100 mb-2">
       <h6 class="card-subtitle text-muted">Price: ${{ product?.price }}</h6>
     </div>
     <div class="card-body">
@@ -13,6 +12,7 @@
       <p class="card-text">Status: {{ product?.status === '1' ? 'Available' : 'Unavailable' }}</p>
     </div>
     <div class="card-footer d-flex justify-content-between">
+      <a class="btn btn-primary" [routerLink]="['/products']">Back</a>
       <button class="btn btn-success" (click)="addToCart(product)">Add To Cart </button>
     </div>
   </div>

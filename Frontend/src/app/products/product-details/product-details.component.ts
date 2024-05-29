@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../../models/product';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.css'
 })
 export class ProductDetailsComponent implements OnInit {
   product: Product | null = null;
-  imageDirectoryPath: any = "http://127.0.0.1:8000/public/images/";
+  imageDirectoryPath: any = "http://127.0.0.1:8000/images/";
   constructor(public activatedRoute: ActivatedRoute, public productService: ProductService) { }
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
