@@ -93,6 +93,10 @@ Route::group(["prefix" => "user/"],function(){
 
 
 
+
+
+Route::resource('carts',CartController::class);
+
 Route::resource('orders', OrderController::class);
 
 Route::get('users/{user_id}/orders', [OrderController::class, 'getOrdersForUser']);
