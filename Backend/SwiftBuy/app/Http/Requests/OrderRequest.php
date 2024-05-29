@@ -25,7 +25,7 @@ class OrderRequest extends FormRequest
             'user_id' => 'required|exists:users,id',
             'date' => 'required|date',
             'total_price' => 'required|numeric',
-            'status' => 'required|in:0,1',
+            'status' => 'required|in:pending,accepted,rejected',
             'items' => 'array',
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|integer',
