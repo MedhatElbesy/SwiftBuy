@@ -20,6 +20,7 @@ export class ProductsComponent implements OnInit {
   sub: Subscription | null = null;
   filteredProducts: Product[] = [];
   searchQuery: string = '';
+  imageDirectoryPath: any = "http://127.0.0.1:8000/images/";
 
   constructor(
     private productService: ProductService,

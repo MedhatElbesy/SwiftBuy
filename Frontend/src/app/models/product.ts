@@ -8,7 +8,8 @@ export class Product {
     public rating: '1' | '2' | '3' | '4' | '5',
     public status: '0' | '1',
     public category_id: number,
-    public image?: string
+    public image?: string,
+    public promotion?: number,
   ) { }
 
 }

@@ -8,13 +8,13 @@ import { map,tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ProductService {
-  private baseUrl = 'http://localhost:8000/api/products/';
+  private baseUrl = 'http://localhost:8000/api/user/products/';
   // private cache: { [key: string]: Product[] } = {};
   // private productCache: { [id: number]: Product } = {};
 
   constructor(private http: HttpClient) { }
 
-  // getAllProducts(): Observable<Product[]> {
+  // getAllProducts(): Observable<Product[]> {zz
   //   if (this.cache['allProducts']) {
   //     return of(this.cache['allProducts']);
   //   }
