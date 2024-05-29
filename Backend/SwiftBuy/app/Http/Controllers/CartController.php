@@ -15,14 +15,15 @@ class CartController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        if($user){
-            $carts = Cart::where('user_id', $user->id)->get();
+        // $user = Auth::user();
+        // if($user){
+        //     $carts = Cart::where('user_id', $user->id)->get();
+        $carts = Cart::where('user_id', 1)->get();
         return ApiResponse::sendResponse(200, 'Cart is found', $carts);
-        }
-        else{
-        return ApiResponse::sendResponse(400, 'Not autherized');
-        }
+        // }
+        // else{
+        // return ApiResponse::sendResponse(400, 'Not autherized');
+        // }
 
     }
 
@@ -43,9 +44,12 @@ class CartController extends Controller
             'quantity' => 'sometimes|required|integer',
             'price' => 'sometimes|required|numeric',
         ]);
-        $user = Auth::user();
+        // $user = Auth::user();
 
-        $cart = Cart::where('user_id', $user->id)
+        // $cart = Cart::where('user_id', $user->id)
+        //$user = Auth::user();
+
+        $cart = Cart::where('user_id', 1)
         ->where('product_id', $request->product_id)
         ->first();
 
@@ -54,7 +58,8 @@ class CartController extends Controller
         $cart->save();
         } else {
         $cart = Cart::updateOrCreate([
-            'user_id' => $user->id,
+            // 'user_id' => $user->id,
+            'user_id' => 1,
             'product_id' => $request->product_id,
             'quantity' => $request->quantity,
             'price' => $request->price,

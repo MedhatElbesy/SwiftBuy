@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Order } from '../models/order';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile-component',
@@ -16,9 +18,12 @@ import { CommonModule } from '@angular/common';
 export class ProfileComponentComponent implements OnInit , OnDestroy
 {
   users:User[]=[];
+  orders: Order[] = [];
   user:User|null = null;
   sub:Subscription | null = null;
+  orderSub: Subscription | null = null;
   updateForm: FormGroup;
+  baseUrl: string = 'http://localhost:8000/images/';
   constructor(public profileService:ProfileService,public router:Router, public fb:FormBuilder){
     this.updateForm = this.fb.group({
       name: [''],
@@ -38,9 +43,14 @@ export class ProfileComponentComponent implements OnInit , OnDestroy
         gender: data.gender
       });
     });
+
+    this.orderSub = this.profileService.getUserOrders(userId).subscribe(data => {
+      this.orders = data;
+    });
   }
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
+    this.orderSub?.unsubscribe();
   }
   onSubmit(): void {
     if (this.user) {
@@ -50,5 +60,39 @@ export class ProfileComponentComponent implements OnInit , OnDestroy
       });
     }
   }
+
+  deleteOrder(orderId: number): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.profileService.deleteOrder(orderId).subscribe(
+          () => {
+            this.orders = this.orders.filter(order => order.id !== orderId);
+            Swal.fire(
+              'Deleted!',
+              'Your order has been deleted.',
+              'success'
+            );
+          },
+          error => {
+            console.error('Error deleting order', error);
+            Swal.fire(
+              'Error!',
+              'There was an error deleting your order.',
+              'error'
+            );
+          }
+        );
+      }
+    });
+  }
+
+
 
 }
