@@ -23,14 +23,14 @@ use App\Http\Controllers\CartController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::middleware('auth:sanctum','api')->group(function () {
-    Route::resource('carts',CartController::class);
-    Route::get('user/products',[ProductController::class, 'index']);
-});
+// Route::middleware('auth:sanctum','api')->group(function () {
+    // Route::resource('carts',CartController::class);
+    // Route::get('user/products',[ProductController::class, 'index']);
+// });
 
 
 // Route::prefix('api')->middleware(['auth:sanctum','api','web'])->group(function () {
-Route::prefix('api')->middleware(['auth:sanctum','api','web'])->group(function () {
+// Route::prefix('api')->middleware(['auth:sanctum','api','web'])->group(function () {
     // Route::resource('categories', CategoryController::class);
     // Route::get('user/products',[ProductController::class, 'index']);
     // Route::resource('product_images', ProductImageController::class);
@@ -41,7 +41,7 @@ Route::prefix('api')->middleware(['auth:sanctum','api','web'])->group(function (
     // Route::get('user', [ProductController::class, 'search']);
     // Route::get('users/{user_id}/orders', [OrderController::class, 'getOrdersForUser']);
     // Route::get('user', [ProductController::class, 'search']);0
-});
+// });
 
 Route::get('users/{user_id}/orders', [OrderController::class, 'getOrdersForUser']);
 Route::group(["prefix" => "admin/"],function(){
@@ -54,15 +54,16 @@ Route::group(["prefix" => "admin/"],function(){
         Route::post('logout', 'logout')->middleware('auth:admin-api');
     });
 
-    Route::group(["middleware" => "auth:admin-api"] , function(){
+    // Route::group(["middleware" => "auth:admin-api"] , function(){
+
         // http://localhost:8000/api/admin/products must be login as admin and send token to featch
-        // Route::resource('products', ProductController::class);
+        Route::resource('products', ProductController::class);
         //http://localhost:8000/api/admin/categories must be login as admin and send token to featch
-        // Route::resource('categories', CategoryController::class);
+        Route::resource('categories', CategoryController::class);
         //http://localhost:8000/api/admin/orders  must be login as admin and send token to featch
         Route::resource('orders', OrderController::class);
 
-});
+    // });
 
 });
 
@@ -70,10 +71,12 @@ Route::group(["prefix" => "user/"],function(){
     //http://localhost:8000/api/user/products must be login as user and featch with token
 
 
-    Route::group(["middleware" => "auth:api"] , function(){
-        Route::get('products', [ProductController::class, 'index']);
+    Route::get('products', [ProductController::class, 'index']);
+    // Route::group(["middleware" => "auth:api"] , function(){
+
         Route::resource('carts',CartController::class);
-    });
+
+    // });
 
     Route::controller(AuthController::class)->group(function (){
         //http://localhost:8000/api/user/register
