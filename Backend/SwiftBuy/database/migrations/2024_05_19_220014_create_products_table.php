@@ -17,10 +17,12 @@ return new class extends Migration
             $table->longText('description');
             $table->string('stock');
             $table->decimal('price',10,2);
-            $table->string('slug')->unique();
             $table->enum('rating',[1,2,3,4,5]);
-            $table->enum('status',[0,1]);
+            $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending')->default('pending');
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->string('image')->nullable();
+            $table->string('promotion')->nullable()->default('0');
+            $table->string('final_price')->nullable();
             $table->timestamps();
         });
     }
