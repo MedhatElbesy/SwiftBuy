@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { LocalStorageService } from '../../services/localstorage.service';
 import { UserInfo } from '../../models/user-info';
 import { UserService } from '../../services/user.service';
@@ -13,10 +14,9 @@ import { Token } from '../../models/token';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnDestroy{
+export class RegisterComponent implements OnDestroy {
 
-  first_name: string = '';
-  last_name: string = '';
+  name: string = '';
   gender: string = '';
   email: string = '';
   password: string = '';
@@ -31,9 +31,9 @@ export class RegisterComponent implements OnDestroy{
   private userData: UserInfo=new UserInfo;
   constructor(
     private localStorage: LocalStorageService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {}
-
   togglePasswordVisibility() {
     if (this.passwordFieldType === 'password') {
       this.passwordFieldType = 'text';
@@ -62,7 +62,7 @@ export class RegisterComponent implements OnDestroy{
     try {
       // Create user info object
       let registedUser: UserInfo = {
-        name: `${this.first_name} ${this.last_name}`,
+        name: `${this.name}`,
         email: this.email,
         password: this.password,
         gender: this.gender,
@@ -73,7 +73,8 @@ export class RegisterComponent implements OnDestroy{
         next: (response: any) => {
           this.errorInSubmitting = 'show-error text-success custom-alert';
           this.errorMessage="Registed Successfully"
-          this.errorIcon="bi bi-dash-circle mx-2"
+          this.errorIcon="bi bi-dash-circle mx-2",
+          this.router.navigate(['/login']);
         },
         error: (error) => {
           this.errorInSubmitting = 'show-error text-danger custom-alert';

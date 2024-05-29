@@ -1,31 +1,35 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import { FormsModule, NgForm } from '@angular/forms';
-import { LocalStorageService } from '../../services/localstorage.service';
-import { CommonModule } from '@angular/common';
-import { UserService } from '../../services/user.service';
-import { Token } from '../../models/token';
-import { LoggedInUser } from '../../models/logged-in-user';
+import { Component, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { UserService } from '../../services/user.service';
+import { LocalStorageService } from '../../services/localstorage.service';
+import { LoggedInUser } from '../../models/logged-in-user';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterLink, RouterOutlet, CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule], // Ensure RouterModule is included
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'] // Updated from styleUrl to styleUrls
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnDestroy {
-  user_mail: string = "";
-  password: string = "";
+  user_mail: string = '';
+  password: string = '';
+  userType: string = 'user'; // Default to user
   passwordIcon: string = 'fas fa-eye-slash';
   passwordFieldType: string = 'password';
-  errorInSubmitting = "hide-error";
-  errorMessage = "";
-  errorIcon = "bi bi-circle";
-  private loginProcess: Subscription | null = null; // Add a subscription variable
+  errorInSubmitting = 'hide-error';
+  private loginProcess: Subscription | null = null;
 
-  constructor(private localStorage: LocalStorageService, private router: Router, private userService: UserService) { }
+  constructor(
+    private localStorage: LocalStorageService,
+    private router: Router,
+    private userService: UserService
+  ) {}
 
   togglePasswordVisibility() {
     if (this.passwordFieldType === 'password') {
@@ -47,33 +51,49 @@ export class LoginComponent implements OnDestroy {
 
   submitLogin() {
     try {
+      const loggedInUserData: LoggedInUser = {
+        email: this.user_mail,
+        password: this.password,
+        device_name: 'mobile',
+      };
 
-        // Generate object
-        let loggedInUserData: LoggedInUser = {
-          email: this.user_mail,
-          password: this.password,
-          device_name: "mobile"
-        };
+      // Clear storage before login
+      localStorage.clear();
 
-        this.loginProcess = this.userService.login(loggedInUserData).subscribe({
-          next: (response) => {
-            console.log(response)
-            this.localStorage.setValue("loginToken", response.access_token);
-            this.localStorage.setValue("uEmail", this.user_mail);
-
-            this.localStorage.removeValue("registerToken");
-            this.router.navigate(['/home']);
-          },
-          error: (error) => {
-            console.log(error);
-            this.errorInSubmitting = 'show-error text-danger';
-          }
-        });
+      if (this.userType === 'user') {
+        this.loginProcess = this.userService
+          .userLogin(loggedInUserData)
+          .subscribe({
+            next: (response) => {
+              this.localStorage.setValue('token', response.body.data.token);
+              this.localStorage.setValue('name', response.body.data.name);
+              this.localStorage.setValue('id', response.body.data.id);
+              this.router.navigate(['/products']);
+            },
+            error: (error) => {
+              console.log(error);
+              this.errorInSubmitting = 'show-error text-danger';
+            },
+          });
+      } else if (this.userType === 'admin') {
+        this.loginProcess = this.userService
+          .adminLogin(loggedInUserData)
+          .subscribe({
+            next: (response) => {
+              this.localStorage.setValue('token', response.body.data.token); // Use response.body?.token
+              this.localStorage.setValue('id', response.body.data.id);
+              this.localStorage.setValue('name', response.body.data.name);
+              this.router.navigate(['/products']);
+            },
+            error: (error) => {
+              console.log(error);
+              this.errorInSubmitting = 'show-error text-danger';
+            },
+          });
+      }
     } catch (error) {
-
       this.errorInSubmitting = 'show-error text-danger';
     }
-
   }
 
   ngOnDestroy() {

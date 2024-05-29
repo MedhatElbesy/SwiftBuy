@@ -1,42 +1,51 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { LoggedInUser } from '../models/logged-in-user';
 import { Token } from '../models/token';
 import { UserInfo } from '../models/user-info';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private registerUrl = 'http://127.0.0.1:8000/api/register/';
-  private loginUrl = 'http://127.0.0.1:8000/api/login/';
-  private logoutUrl = 'http://127.0.0.1:8000/api/logout/';
+  private userRegisterUrl = 'http://localhost:8000/api/user/register/';
+  private userLoginUrl = 'http://localhost:8000/api/user/login/';
+  private adminLoginUrl = 'http://localhost:8000/api/admin/login/';
+  private logoutUrl = 'http://localhost:8000/api/logout/';
+
   constructor(private http: HttpClient) {}
 
-  login(user: LoggedInUser) {
+  userLogin(user: LoggedInUser): Observable<HttpResponse<any>> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-
-    return this.http.post<Token>(this.loginUrl, user, { headers });
+    return this.http.post<any>(this.userLoginUrl, user, { headers, observe: 'response' });
   }
 
-  register(user: UserInfo) {
+  adminLogin(user: LoggedInUser): Observable<HttpResponse<any>> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-
-    return this.http.post<Token>(this.registerUrl, user, { headers });
+    return this.http.post<any>(this.adminLoginUrl, user, { headers, observe: 'response' });
   }
 
-  logout(token: string) {
+  register(user: UserInfo): Observable<HttpResponse<any>> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    });
+    return this.http.post<any>(this.userRegisterUrl, user, { headers, observe: 'response' });
+  }
+
+  logout(token: string): Observable<HttpResponse<any>> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    return this.http.post<any>(this.logoutUrl, {}, { headers });
+    return this.http.post<any>(this.logoutUrl, {}, { headers, observe: 'response' });
   }
 }

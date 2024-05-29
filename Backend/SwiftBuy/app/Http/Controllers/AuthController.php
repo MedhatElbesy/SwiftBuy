@@ -41,8 +41,8 @@ class AuthController extends Controller
     public function login(UserLoginRequest $request) {
         $user = User::where('email', $request->email)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return ApiResponse::sendResponse(200, "Fail data");
+        if(!$user || !Hash::check($request->password, $user->password)) {
+            return ApiResponse::sendResponse(401, "Fail data");
         }
 
         $token = $user->createToken('apitoken')->plainTextToken;
@@ -50,6 +50,7 @@ class AuthController extends Controller
         $data = [
             'token' => $token,
             'name'  => $user->name,
+            'id' => $user->id,
             'email' => $user->email,
             'photo' => $user->photo,
         ];
@@ -63,5 +64,3 @@ class AuthController extends Controller
         return ApiResponse::sendResponse(200,"Logedout Success");
     }
 }
-
-

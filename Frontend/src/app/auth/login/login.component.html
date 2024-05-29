@@ -1,7 +1,5 @@
 <div class="cardd row g-0">
-  <div
-    class="cardd-body col-10 col-md-9 col-lg-8 m-auto mt-5 h-50 p-3 shadow rounded"
-  >
+  <div class="cardd-body col-10 col-md-9 col-lg-8 m-auto mt-5 h-50 p-3 shadow rounded">
     <h1 class="mb-0 login-title">Sign In</h1>
     <hr>
     <form #signInForm="ngForm" (ngSubmit)="login(signInForm)">
@@ -17,14 +15,8 @@
           name="email"
           required
         />
-        <div
-          *ngIf="validate_name.invalid && validate_name.touched"
-          class="alert custom-alert"
-        >
-          <div
-            *ngIf="validate_name.hasError('required')"
-            class="text-danger custom-error"
-          >
+        <div *ngIf="validate_name.invalid && validate_name.touched" class="alert custom-alert">
+          <div *ngIf="validate_name.hasError('required')" class="text-danger custom-error">
             <i class="bi bi-dash-circle"></i> Email is required
           </div>
         </div>
@@ -49,41 +41,32 @@
             </span>
           </div>
         </div>
-        <div
-          *ngIf="
-            validate_password.invalid &&
-            (validate_password.touched || validate_password.dirty)
-          "
-          class="alert custom-alert"
-        >
-          <div
-            *ngIf="validate_password.hasError('required')"
-            class="text-danger custom-error"
-          >
+        <div *ngIf="validate_password.invalid && (validate_password.touched || validate_password.dirty)" class="alert custom-alert">
+          <div *ngIf="validate_password.hasError('required')" class="text-danger custom-error">
             <i class="bi bi-dash-circle"></i> Password is required
           </div>
-          <div
-            *ngIf="validate_password.hasError('minlength')"
-            class="text-danger custom-error"
-          >
-            <i class="bi bi-dash-circle"></i> Password length must be more than
-            4 characters
+          <div *ngIf="validate_password.hasError('minlength')" class="text-danger custom-error">
+            <i class="bi bi-dash-circle"></i> Password length must be more than 4 characters
           </div>
         </div>
       </div>
-      <div class="w-50 m-auto">
-        <button type="submit" class="btn btn-dark btn-block rounded-pill">
-          Sign in
-        </button>
+      <div class="form-group">
+        <label>User Type</label>
+        <div>
+          <label class="radio-inline">
+            <input type="radio" name="userType" [(ngModel)]="userType" value="user" required> User
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="userType" [(ngModel)]="userType" value="admin"> Admin
+          </label>
+        </div>
       </div>
-      <p
-        class="text-danger my-3"
-        [ngClass]="errorInSubmitting"
-        style="font-weight: 400; font-size: 1.1rem"
-      >
-        <i class="bi bi-exclamation-triangle-fill mx-2"></i>Can't Sign In Due To
-        A Problem
+      <p class="text-danger my-3" [ngClass]="errorInSubmitting" style="font-weight: 400; font-size: 1.1rem">
+        <i class="bi bi-exclamation-triangle-fill mx-2"></i> Invalid Email or Password
       </p>
+      <div class="w-50 m-auto">
+        <button type="submit" class="btn btn-dark btn-block rounded-pill">Sign in</button>
+      </div>
     </form>
     <router-outlet></router-outlet>
   </div>
