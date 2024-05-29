@@ -23,6 +23,8 @@ use App\Http\Controllers\CartController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+
 Route::middleware('auth:sanctum','api')->group(function () {
     Route::resource('carts',CartController::class);
     Route::get('user/products',[ProductController::class, 'index']);
@@ -84,3 +86,14 @@ Route::group(["prefix" => "user/"],function(){
         Route::post('logout','logout')->middleware('auth:sanctum');
     });
 });
+
+
+
+
+
+
+
+Route::resource('orders', OrderController::class);
+
+Route::get('users/{user_id}/orders', [OrderController::class, 'getOrdersForUser']);
+Route::resource("users",UserController::class);

@@ -23,14 +23,26 @@
       <label for="password" class="form-label">Password</label>
       <input type="password" id="password" formControlName="password" class="form-control">
     </div>
-    <div class="mb-3">
+    <!-- <div class="mb-3">
       <label for="gender" class="form-label">Gender</label>
       <select id="gender" formControlName="gender" class="form-control">
         <option value="male">Male</option>
         <option value="female">Female</option>
       </select>
-    </div>
+    </div> -->
     <button type="submit" class="btn btn-primary">Update</button>
   </form>
-  
+
+
+  <div>
+    <h1>User's orders</h1>
+    <div *ngFor="let order of orders" class="card mb-3">
+      <div class="card-body">
+        <p>order id :: {{order.id}}</p>
+        <p class="card-text">Order Price: {{ order.total_price }}</p>
+        <p class="card-text">Order Status: {{ order.status == "1" ? 'Accepted' : 'Pending' }}</p>
+        <button *ngIf="order.status === '0'" class="btn btn-danger" (click)="deleteOrder(order.id)">Delete Order</button>
+      </div>
+    </div>
+  </div>
 </div>
