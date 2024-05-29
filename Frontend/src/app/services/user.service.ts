@@ -10,6 +10,7 @@ import { UserInfo } from '../models/user-info';
 })
 export class UserService {
   private userRegisterUrl = 'http://localhost:8000/api/user/register/';
+  private adminRegisterUrl = 'http://localhost:8000/api/admin/register/';
   private userLoginUrl = 'http://localhost:8000/api/user/login/';
   private adminLoginUrl = 'http://localhost:8000/api/admin/login/';
   private logoutUrl = 'http://localhost:8000/api/logout/';
@@ -32,12 +33,20 @@ export class UserService {
     return this.http.post<any>(this.adminLoginUrl, user, { headers, observe: 'response' });
   }
 
-  register(user: UserInfo): Observable<HttpResponse<any>> {
+  userRegister(user: UserInfo): Observable<HttpResponse<any>> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
     return this.http.post<any>(this.userRegisterUrl, user, { headers, observe: 'response' });
+  }
+
+  adminRegister(user: UserInfo): Observable<HttpResponse<any>> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    });
+    return this.http.post<any>(this.adminRegisterUrl, user, { headers, observe: 'response' });
   }
 
   logout(token: string): Observable<HttpResponse<any>> {

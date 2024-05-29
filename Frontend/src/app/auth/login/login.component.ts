@@ -19,7 +19,7 @@ import { RouterModule } from '@angular/router';
 export class LoginComponent implements OnDestroy {
   user_mail: string = '';
   password: string = '';
-  userType: string = 'user'; // Default to user
+  userType: string = 'user';
   passwordIcon: string = 'fas fa-eye-slash';
   passwordFieldType: string = 'password';
   errorInSubmitting = 'hide-error';
