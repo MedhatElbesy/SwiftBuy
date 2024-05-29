@@ -10,6 +10,7 @@ import { Order } from '../models/order';
 })
 export class ProfileService {
   private baseURL = "http://localhost:8000/api/users/";
+  private baseUrl = "http://localhost:8000/api/";
 
 
   constructor(private http: HttpClient) { }
@@ -34,5 +35,10 @@ export class ProfileService {
     return this.http.get<{ status: string, msg: string, data: Order[] }>(`${this.baseURL}${id}/orders`).pipe(
       map(response => response.data)
     );
+  }
+
+
+deleteOrder(orderId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}orders/${orderId}`);
   }
 }

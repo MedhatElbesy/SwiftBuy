@@ -38,8 +38,10 @@
     <h1>User's orders</h1>
     <div *ngFor="let order of orders" class="card mb-3">
       <div class="card-body">
+        <p>order id :: {{order.id}}</p>
         <p class="card-text">Order Price: {{ order.total_price }}</p>
         <p class="card-text">Order Status: {{ order.status == "1" ? 'Accepted' : 'Pending' }}</p>
+        <button *ngIf="order.status === '0'" class="btn btn-danger" (click)="deleteOrder(order.id)">Delete Order</button>
       </div>
     </div>
   </div>

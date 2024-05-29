@@ -59,4 +59,17 @@ export class ProfileComponentComponent implements OnInit , OnDestroy
     }
   }
 
+  deleteOrder(orderId: number): void {
+    this.profileService.deleteOrder(orderId).subscribe(
+      () => {
+        this.orders = this.orders.filter(order => order.id !== orderId);
+      },
+      error => {
+        console.error('Error deleting order', error);
+      }
+    );
+  }
+
+
+
 }
