@@ -14,7 +14,7 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  // getAllProducts(): Observable<Product[]> {
+  // getAllProducts(): Observable<Product[]> {zz
   //   if (this.cache['allProducts']) {
   //     return of(this.cache['allProducts']);
   //   }
@@ -38,6 +38,17 @@ export class ProductService {
     )
 
   }
+  update(prd: Product) {
+    return this.http.put<any>(this.baseUrl + prd.id, prd);
+  }
+  // update(formData: FormData, id: number): Observable<any> {
+  //   return this.http.put<any>(this.baseUrl + id, formData);
+  // }
+
+
+
+
+
   // getProductById(id: number): Observable<Product> {
   //   if (this.productCache[id]) {
   //     return of(this.productCache[id]);
