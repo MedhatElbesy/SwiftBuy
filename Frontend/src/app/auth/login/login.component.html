@@ -1,0 +1,90 @@
+<div class="cardd row g-0">
+  <div
+    class="cardd-body col-10 col-md-9 col-lg-8 m-auto mt-5 h-50 p-3 shadow rounded"
+  >
+    <h1 class="mb-0 login-title">Sign In</h1>
+    <hr>
+    <form #signInForm="ngForm" (ngSubmit)="login(signInForm)">
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          placeholder="Text"
+          [(ngModel)]="user_mail"
+          #validate_name="ngModel"
+          name="email"
+          required
+        />
+        <div
+          *ngIf="validate_name.invalid && validate_name.touched"
+          class="alert custom-alert"
+        >
+          <div
+            *ngIf="validate_name.hasError('required')"
+            class="text-danger custom-error"
+          >
+            <i class="bi bi-dash-circle"></i> Email is required
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-group">
+          <input
+            [type]="passwordFieldType"
+            class="form-control"
+            id="password"
+            #validate_password="ngModel"
+            placeholder="Password"
+            [(ngModel)]="password"
+            name="password"
+            required
+            minlength="4"
+          />
+          <div class="input-group-append">
+            <span class="input-group-text" (click)="togglePasswordVisibility()">
+              <i [class]="passwordIcon"></i>
+            </span>
+          </div>
+        </div>
+        <div
+          *ngIf="
+            validate_password.invalid &&
+            (validate_password.touched || validate_password.dirty)
+          "
+          class="alert custom-alert"
+        >
+          <div
+            *ngIf="validate_password.hasError('required')"
+            class="text-danger custom-error"
+          >
+            <i class="bi bi-dash-circle"></i> Password is required
+          </div>
+          <div
+            *ngIf="validate_password.hasError('minlength')"
+            class="text-danger custom-error"
+          >
+            <i class="bi bi-dash-circle"></i> Password length must be more than
+            4 characters
+          </div>
+        </div>
+      </div>
+      <div class="w-50 m-auto">
+        <button type="submit" class="btn btn-dark btn-block rounded-pill">
+          Sign in
+        </button>
+      </div>
+      <p
+        class="text-danger my-3"
+        [ngClass]="errorInSubmitting"
+        style="font-weight: 400; font-size: 1.1rem"
+      >
+        <i class="bi bi-exclamation-triangle-fill mx-2"></i>Can't Sign In Due To
+        A Problem
+      </p>
+    </form>
+    <router-outlet></router-outlet>
+  </div>
+</div>
