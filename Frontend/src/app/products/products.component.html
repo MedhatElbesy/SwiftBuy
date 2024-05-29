@@ -13,7 +13,9 @@
     <div class="col-md-4" *ngFor="let product of filteredProducts">
       <div class="card mb-4">
         <div class="card-header">
-          <h5 class="card-title">{{ product.title }}</h5>
+          <!-- <h5 class="card-title">{{ product.title }}</h5> -->
+          <h3 class="card-title text-center">{{ product.title }}</h3>
+          <img [src]="imageDirectoryPath+product?.image" alt="not found" class="img-fluid w-100 mb-2" style="height: 200px;">
           <h6 class="card-subtitle text-muted">Price: ${{ product.price }}</h6>
         </div>
         <div class="card-body">
@@ -23,7 +25,7 @@
           <p class="card-text">Status: {{ product.status === '1' ? 'Available' : 'Unavailable' }}</p>
         </div>
         <div class="card-footer d-flex justify-content-between">
-          <button class="btn btn-primary">Show Prod</button>
+          <a class="btn btn-primary" [routerLink]="['/products/', product.id]">Show Prod</a>
           <button class="btn btn-success" (click)="addToCart(product)">Add To Cart </button>
         </div>
       </div>

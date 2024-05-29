@@ -5,12 +5,13 @@ import { ProductService } from '../services/product.service';
 import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../services/cart.service.';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,RouterLink],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
 })
@@ -19,6 +20,7 @@ export class ProductsComponent implements OnInit {
   sub: Subscription | null = null;
   filteredProducts: Product[] = [];
   searchQuery: string = '';
+  imageDirectoryPath: any = "http://127.0.0.1:8000/images/";
 
   constructor(
     private productService: ProductService,

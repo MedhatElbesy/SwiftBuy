@@ -1,0 +1,9 @@
+.container {
+  max-width: 600px;
+  margin-top: 20px;
+}
+
+.card {
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
