@@ -2,18 +2,10 @@
   <h2>Add New Product</h2>
   <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
     <div class="mb-3">
-      <label for="id" class="form-label">ID</label>
-      <input type="number" id="id" formControlName="id" class="form-control" />
-      <div *ngIf="productForm.get('id')?.invalid && productForm.get('id')?.touched" class="text-danger">
-        ID is required.
-      </div>
-    </div>
-
-    <div class="mb-3">
       <label for="title" class="form-label">Title</label>
       <input type="text" id="title" formControlName="title" class="form-control" />
       <div *ngIf="productForm.get('title')?.invalid && productForm.get('title')?.touched" class="text-danger">
-        Enter your Title Please.
+        Enter your title, please.
       </div>
     </div>
 
@@ -21,15 +13,15 @@
       <label for="description" class="form-label">Description</label>
       <textarea id="description" formControlName="description" class="form-control"></textarea>
       <div *ngIf="productForm.get('description')?.invalid && productForm.get('description')?.touched" class="text-danger">
-        Enter your Description please.
+        Enter your description, please.
       </div>
     </div>
 
     <div class="mb-3">
       <label for="stock" class="form-label">Stock</label>
-      <input type="text" id="stock" formControlName="stock" class="form-control" />
+      <input type="number" id="stock" formControlName="stock" class="form-control" />
       <div *ngIf="productForm.get('stock')?.invalid && productForm.get('stock')?.touched" class="text-danger">
-        Enter your Stock please
+        Enter your stock, please.
       </div>
     </div>
 
@@ -42,10 +34,10 @@
     </div>
 
     <div class="mb-3">
-      <label for="promotion" class="form-label">promotion</label>
+      <label for="promotion" class="form-label">Promotion</label>
       <input type="number" id="promotion" formControlName="promotion" class="form-control" />
       <div *ngIf="productForm.get('promotion')?.invalid && productForm.get('promotion')?.touched" class="text-danger">
-        promotion must be a positive number.
+        Promotion must be a positive number.
       </div>
     </div>
 
@@ -80,6 +72,11 @@
       <div *ngIf="productForm.get('category_id')?.invalid && productForm.get('category_id')?.touched" class="text-danger">
         Category ID is required.
       </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="image" class="form-label">Image</label>
+      <input type="file" id="image" (change)="onFileChange($event)" class="form-control" />
     </div>
 
     <button type="submit" class="btn btn-primary">Add Product</button>

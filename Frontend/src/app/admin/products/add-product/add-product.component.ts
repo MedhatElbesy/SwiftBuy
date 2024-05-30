@@ -16,10 +16,11 @@ import { ProductAdminService } from '../../../services/productAdmin.service';
 export class AddProductComponent {
   productForm: FormGroup;
   prd: Product = new Product(0, '', '', '', 0, '1', '1', 1);
+  selectedFile: File | null = null;
 
   constructor(private productAdminService: ProductAdminService, private formBuilder: FormBuilder,private router:Router) {
     this.productForm = this.formBuilder.group({
-      id: ['', Validators.required],
+      id: [''],
       title: ['', Validators.required],
       description: ['', Validators.required],
       stock: ['', Validators.required],
@@ -33,13 +34,28 @@ export class AddProductComponent {
 
   onSubmit() {
     if (this.productForm.valid) {
-      const product: Product = this.productForm.value;
-      this.productAdminService.addProduct(product).subscribe(d => {
+      const formData = new FormData();
+      const product = this.productForm.value;
+
+      for (const key in product) {
+        formData.append(key, product[key]);
+      }
+
+      if (this.selectedFile) {
+        formData.append('image', this.selectedFile);
+      }
+
+      this.productAdminService.addProduct(formData).subscribe(d => {
         this.router.navigateByUrl('/dashboard/products');
         console.log(product);
       });
     } else {
       console.log('Form is invalid');
+    }
+  }
+  onFileChange(event: any) {
+    if (event.target.files.length > 0) {
+      this.selectedFile = event.target.files[0];
     }
   }
 }
