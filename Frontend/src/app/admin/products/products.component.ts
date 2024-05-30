@@ -29,9 +29,9 @@ goToAdd(){
 }
 
 toggleStatus(product: Product): void {
-  //still need logic
+  const newStatus = product.status === '1' ? '0' : '1'; // Toggle status
+  this.ProductAdminService.updateProductStatus(product.id, newStatus).subscribe(() => {
+    product.status = newStatus;
+  });
 }
-
-
-
 }

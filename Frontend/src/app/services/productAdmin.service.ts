@@ -32,4 +32,8 @@ export class ProductAdminService {
     return this.http.delete<any>(`${this.baseUrl}+${id}`);
   }
 
+  updateProductStatus(productId: number, status: string): Observable<any> {
+    return this.http.put(`${this.baseUrl}+${productId}`, { status });
+  }
+
 }
