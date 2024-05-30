@@ -15,6 +15,7 @@ import { AboutComponent } from './components/about/about.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { AuthGuard } from './guard/auth.guard';
 import { Error404Component } from './error/404/404.component';
+import { UserOrdersComponent } from './admin/user-orders/user-orders.component';
 
 export const routes: Routes = [
   { path: '', component: UserHomeComponent },
@@ -30,6 +31,7 @@ export const routes: Routes = [
       { path: 'products', component: ProductAdminComponent },
       { path: 'product/add', component: AddProductComponent },
       { path: 'product/edit/:id', component: EditProductComponent },
+      { path: 'orders', component: UserOrdersComponent },
     ],
   },
   { path: 'users', component: ProfileComponentComponent },
