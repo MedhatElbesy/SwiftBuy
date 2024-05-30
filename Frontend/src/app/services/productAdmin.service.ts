@@ -18,7 +18,7 @@ export class ProductAdminService {
       map(response => response.data as Product[])
     );
   }
-  addProduct(prd: Product) {
+  addProduct(prd: FormData) {
     return this.http.post<any>(this.baseUrl, prd);
   }
 
@@ -27,6 +27,13 @@ export class ProductAdminService {
       map(response => response.data as Product)
     )
 
+  }
+  deleteProduct(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}+${id}`);
+  }
+
+  updateProductStatus(productId: number, status: string): Observable<any> {
+    return this.http.put(`${this.baseUrl}+${productId}`, { status });
   }
 
 }

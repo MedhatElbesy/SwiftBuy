@@ -34,19 +34,25 @@ export class ProfileComponentComponent implements OnInit , OnDestroy
   }
 
   ngOnInit(): void {
-    const userId = 1;  // specify the user ID you want to fetch
-    this.sub = this.profileService.getById(userId).subscribe(data => {
-      this.user = data;
-      this.updateForm.patchValue({
-        name: data.name,
-        email: data.email,
-        gender: data.gender
+    //const storedUserId = localStorage.getItem('userId');
+    const storedUserId = localStorage.getItem('id');
+    if (storedUserId) {
+      const userId = +storedUserId; // specify the user ID you want to fetch
+      this.sub = this.profileService.getById(userId).subscribe(data => {
+        this.user = data;
+        this.updateForm.patchValue({
+          name: data.name,
+          email: data.email,
+          gender: data.gender
+        });
       });
-    });
 
-    this.orderSub = this.profileService.getUserOrders(userId).subscribe(data => {
-      this.orders = data;
-    });
+      this.orderSub = this.profileService.getUserOrders(userId).subscribe(data => {
+        this.orders = data;
+      });
+    }else {
+      console.error('No userId found in localStorage');
+    }
   }
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
