@@ -59,7 +59,8 @@ Route::group(["prefix" => "admin/"],function(){
         //http://localhost:8000/api/admin/logout must be login as user and logout with token
         Route::post('logout', 'logout')->middleware('auth:admin-api');
     });
-
+    Route::get("orders/{id}/reject",[OrderController::class,'reject']);
+    Route::get("orders/{id}/accept",[OrderController::class,'accept']);
     // Route::group(["middleware" => "auth:admin-api"] , function(){
 
         // http://localhost:8000/api/admin/products must be login as admin and send token to featch
@@ -100,3 +101,11 @@ Route::group(["prefix" => "user/"],function(){
 
 Route::get('users/{user_id}/orders', [OrderController::class, 'getOrdersForUser']);
 Route::resource("users",UserController::class);
+
+
+
+
+
+
+
+
