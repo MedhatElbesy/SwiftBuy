@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
@@ -23,16 +24,9 @@ class Product extends Model
             $product->images()->delete();
         });
     }
-
-    // public function images()
-    // {
-    //     return $this->hasMany(ProductImage::class);
-    // }
-
     public function carts()
     {
         return $this->belongsToMany(Cart::class)->withPivot('quantity');
     }
-
 
 }

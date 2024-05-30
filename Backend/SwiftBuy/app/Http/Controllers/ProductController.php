@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ApiResponse;
 use App\Http\Requests\ProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -43,7 +45,7 @@ class ProductController extends Controller
         if($product)
             if($request->hasFile('image')){
                 $image = $request->file('image');
-                $imageName = $product->title .'.'.$image->getClientOriginalExtension();
+                $imageName = time().'.'.$image->getClientOriginalExtension();
                 $image->move(public_path('images'), $imageName);
                 $product->image =$imageName;
                 $product->save();
@@ -62,46 +64,55 @@ class ProductController extends Controller
             return ApiResponse::sendResponse(200,'Product',$product);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(ProductRequest $request, $id)
+
+
+    public function update(UpdateProductRequest $request, $id)
     {
-        $product = Product::findOrFail($id);
-        $validatedData = $request->validated();
-        $product->update($validatedData);
+        $product = Product::find($id);
+
+        if (is_null($product)) {
+            return ApiResponse::sendResponse(404, 'Product not found');
+
+        }
+
+        $data = $request->validated();
+
+        $oldImagePath = $product->image;
+        dd($oldImagePath);
+
+        $finalPrice = isset($data['price']) ? $data['price'] : $product->price;
+
+        if (isset($data['promotion'])) {
+            $finalPrice -= (($finalPrice * $data['promotion']) / 100);
+        }
+
+        $product->fill($request->only([
+            'title', 'description', 'stock', 'rating', 'status', 'category_id', 'promotion'
+        ]));
+        $product->final_price = $finalPrice;
+
+        if ($request->hasFile('image')) {
+            if ($oldImagePath) {
+                Storage::delete('public/images/' . $oldImagePath);
+            }
+
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+            $product->image = $imageName;
+        }
+        $product->save();
         return ApiResponse::sendResponse(200, 'Product Updated Successfully', $product);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
+        // if ($product->image) {
+        //     Storage::delete('public/images/' . $product->image);
+        // }
         $product->delete();
-        if($product)
-            return ApiResponse::sendResponse(200,'Product Deleted Successfully');
+        return ApiResponse::sendResponse(200, 'Product Deleted Successfully');
     }
-    /**
-     * Search for products
-     *
-     * @param Request $request
-     * @return $products
-     */
-    // public function search(Request $request)
-    // {
-    //     $request->validate([
-    //         'name' => 'required|string|min:1'
-    //     ]);
 
-    //     $searchQuery = $request->input('name');
-    //     $products = Product::where('name', 'like', '%' . $searchQuery . '%')->get();
-
-    //     if ($products->isEmpty()) {
-    //         return response()->json(['message' => 'No products found'], 404);
-    //     }
-
-    //     return ApiResponse::sendResponse(200,"Product is",$products);
-    // }
 }

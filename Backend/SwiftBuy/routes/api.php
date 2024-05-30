@@ -63,7 +63,7 @@ Route::group(["prefix" => "admin/"],function(){
     // Route::group(["middleware" => "auth:admin-api"] , function(){
 
         // http://localhost:8000/api/admin/products must be login as admin and send token to featch
-        // Route::resource('products', ProductController::class);
+        Route::resource('products', ProductController::class);
         //http://localhost:8000/api/admin/categories must be login as admin and send token to featch
         Route::resource('categories', CategoryController::class);
         //http://localhost:8000/api/admin/orders  must be login as admin and send token to featch
@@ -76,7 +76,7 @@ Route::group(["prefix" => "admin/"],function(){
 Route::group(["prefix" => "user/"],function(){
     //http://localhost:8000/api/user/products must be login as user and featch with token
 
-    Route::resource('products', ProductController::class);
+    // Route::resource('products', ProductController::class);
     // Route::get('products', [ProductController::class, 'index']);
     // Route::resource('products', ProductController::class);
     Route::get('products', [ProductController::class, 'index']);

@@ -62,7 +62,7 @@ class OrderController extends Controller
         $order = Order::find($id);
 
         if (is_null($order)) {
-            return response()->json(['message' => 'Order not found'], 404);
+            return ApiResponse::sendResponse(404,"Order not found");
         }
 
         $order->fill($request->only(['user_id', 'date', 'total_price', 'status']));
