@@ -72,14 +72,10 @@ class ProductController extends Controller
 
         if (is_null($product)) {
             return ApiResponse::sendResponse(404, 'Product not found');
-
         }
 
         $data = $request->validated();
-
         $oldImagePath = $product->image;
-        dd($oldImagePath);
-
         $finalPrice = isset($data['price']) ? $data['price'] : $product->price;
 
         if (isset($data['promotion'])) {
@@ -108,9 +104,9 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
-        // if ($product->image) {
-        //     Storage::delete('public/images/' . $product->image);
-        // }
+        if ($product->image) {
+            Storage::delete('public/images/' . $product->image);
+        }
         $product->delete();
         return ApiResponse::sendResponse(200, 'Product Deleted Successfully');
     }

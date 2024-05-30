@@ -16,14 +16,14 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
-    protected static function boot()
-    {
-        parent::boot();
+    // protected static function boot()
+    // {
+    //     parent::boot();
 
-        static::deleting(function ($product) {
-            $product->images()->delete();
-        });
-    }
+    //     static::deleting(function ($product) {
+    //         $product->images()->delete();
+    //     });
+    // 
     public function carts()
     {
         return $this->belongsToMany(Cart::class)->withPivot('quantity');
