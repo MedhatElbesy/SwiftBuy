@@ -49,13 +49,13 @@ class AdminController extends Controller
     ]);
 
     if ($validator->fails()) {
-        return ApiResponse::sendResponse(200, "Fail");
+        return ApiResponse::sendResponse(401, "Fail");
     }
 
     $admin = Admin::where('email', $request->email)->first();
 
     if (!$admin || !Hash::check($request->password, $admin->password)) {
-        return ApiResponse::sendResponse(200, "Fail data");
+        return ApiResponse::sendResponse(401, "Fail data");
     }
 
     $token = $admin->createToken('apitoken')->plainTextToken;
@@ -63,6 +63,8 @@ class AdminController extends Controller
     $data = [
         'token' => $token,
         'name' => $admin->name,
+        'id' => $admin->id,
+        'email' => $admin->email,
     ];
 
     return ApiResponse::sendResponse(200, "Login Success For Admin", $data);

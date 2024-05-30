@@ -48,7 +48,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return response()->json($user, 200);
+        return ApiResponse::sendResponse(200,"Updated Successfully",$user);
     }
 
 

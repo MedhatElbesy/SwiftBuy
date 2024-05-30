@@ -1,0 +1,46 @@
+.auth-login{
+    margin-top: 15px;
+    height: 20vmin;
+    width: 100vmax;
+    align-items:center;
+    background-color: #f0f2f3;
+}
+
+.auth-login-title{
+    text-align: center;
+    margin-top: 2.5%;
+    padding-top: 2%;
+    text-transform: capitalize;
+    font-family: "Work Sans", sans-serif;
+    font-weight: 500;
+    font-size: 72px;
+    letter-spacing: -.01em;
+    line-height: 1.1;
+}
+
+.container div{
+    margin-bottom: 9vmax;
+}
+/* .auth-login-title{
+    margin: 40px 0 20px;
+    font-family: "Work Sans", sans-serif;
+    font-weight: 500;
+    line-height: 1.1;
+    text-align: center;
+    text-transform: capitalize;
+    font-size: 72px;
+    letter-spacing: -.01em;
+} */
+
+
+.container {
+    margin-top: 60px;
+}
+
+.vertical-line {
+    width: 2px; 
+    margin: auto;
+    height: 100vh;
+    background-color: #ccc; 
+    border: none;  
+}

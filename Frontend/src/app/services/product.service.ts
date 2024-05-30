@@ -8,7 +8,7 @@ import { map,tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ProductService {
-  private baseUrl = 'http://localhost:8000/api/products/';
+  private baseUrl = 'http://localhost:8000/api/admin/products/';
   // private cache: { [key: string]: Product[] } = {};
   // private productCache: { [id: number]: Product } = {};
 
@@ -36,7 +36,6 @@ export class ProductService {
     return this.http.get<any>(this.baseUrl + id).pipe(
       map(response => response.data as Product)
     )
-
   }
   update(prd: Product) {
     return this.http.put<any>(this.baseUrl + prd.id, prd);

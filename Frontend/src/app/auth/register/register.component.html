@@ -1,0 +1,187 @@
+<div class="cardd row g-0">
+  <div
+    class="cardd-body col-10 col-md-9 col-lg-8 m-auto my-5 h-50 p-3 shadow rounded"
+  >
+    <h1 class="mb-0 register-title">Register</h1>
+    <hr>
+    <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
+      <div class="form-group">
+        <label for="full_name">Full Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="full_name"
+          placeholder="Full Name"
+          [(ngModel)]="name"
+          name="name"
+          #validate_first_name="ngModel"
+          required
+        />
+        <div
+          *ngIf="validate_first_name.invalid && validate_first_name.touched"
+          class="alert custom-alert"
+        >
+          <div
+            *ngIf="validate_first_name.hasError('required')"
+            class="text-danger custom-error"
+          >
+            <i class="bi bi-dash-circle"></i> Name is required
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="gender">Gender</label>
+        <select
+          class="form-control"
+          id="gender"
+          [(ngModel)]="gender"
+          name="gender"
+          #validate_gender="ngModel"
+          required
+        >
+          <option value="" disabled>Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+        <div
+          *ngIf="validate_gender.invalid && validate_gender.touched"
+          class="alert custom-alert"
+        >
+          <div
+            *ngIf="validate_gender.hasError('required')"
+            class="text-danger custom-error"
+          >
+            <i class="bi bi-dash-circle"></i> Gender is required
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          placeholder="Email"
+          [(ngModel)]="email"
+          name="email"
+          #validate_email="ngModel"
+          required
+          email
+        />
+        <div
+          *ngIf="validate_email.invalid && validate_email.touched"
+          class="alert custom-alert"
+        >
+          <div
+            *ngIf="validate_email.hasError('required')"
+            class="text-danger custom-error"
+          >
+            <i class="bi bi-dash-circle"></i> Email is required
+          </div>
+          <div
+            *ngIf="validate_email.hasError('email')"
+            class="text-danger custom-error"
+          >
+            <i class="bi bi-dash-circle"></i> Invalid email format
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-group">
+          <input
+            [type]="passwordFieldType"
+            class="form-control"
+            id="password"
+            placeholder="Password"
+            [(ngModel)]="password"
+            name="password"
+            #validate_password="ngModel"
+            required
+            minlength="4"
+          />
+          <div class="input-group-append">
+            <span class="input-group-text" (click)="togglePasswordVisibility()">
+              <i [class]="passwordIcon"></i>
+            </span>
+          </div>
+        </div>
+        <div
+          *ngIf="
+            validate_password.invalid &&
+            (validate_password.touched || validate_password.dirty)
+          "
+          class="alert custom-alert"
+        >
+          <div
+            *ngIf="validate_password.hasError('required')"
+            class="text-danger custom-error"
+          >
+            <i class="bi bi-dash-circle"></i> Password is required
+          </div>
+          <div
+            *ngIf="validate_password.hasError('minlength')"
+            class="text-danger custom-error"
+          >
+            <i class="bi bi-dash-circle"></i> Password length must be more than
+            4 characters
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="confirm_password">Confirm Password</label>
+        <div class="input-group">
+          <input
+            type="password"
+            class="form-control"
+            id="confirm_password"
+            placeholder="Password"
+            [(ngModel)]="confirm_password"
+            name="confirm_password"
+            #validate_confirm_password="ngModel"
+            required
+          />
+        </div>
+        <div
+          *ngIf="
+            validate_confirm_password.invalid &&
+            validate_confirm_password.touched
+          "
+          class="alert custom-alert"
+        >
+          <div
+            *ngIf="validate_confirm_password.hasError('required')"
+            class="text-danger custom-error"
+          >
+            <i class="bi bi-dash-circle"></i> Confirm Password is required
+          </div>
+          <div
+            *ngIf="
+              validate_confirm_password.value !== password &&
+              validate_confirm_password.touched
+            "
+            class="text-danger custom-error"
+          >
+            <i class="bi bi-dash-circle"></i> Passwords do not match
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Register As</label>
+        <div>
+          <label class="radio-inline mx-3">
+            <input type="radio" name="userType" [(ngModel)]="userType" value="user" required> User
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="userType" [(ngModel)]="userType" value="admin"> Admin
+          </label>
+        </div>
+      </div>
+      <div class="w-50 m-auto">
+        <button type="submit" class="btn btn-dark btn-block rounded-pill">
+          Register
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

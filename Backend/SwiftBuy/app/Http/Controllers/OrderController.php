@@ -68,7 +68,7 @@ class OrderController extends Controller
         $order->fill($request->only(['user_id', 'date', 'total_price', 'status']));
         $order->save();
 
-        return response()->json($order, 200);
+        return ApiResponse::sendResponse(200,"Updated Successfully",$order);
     }
 
 

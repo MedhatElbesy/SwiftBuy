@@ -3,7 +3,7 @@ import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {  Router, RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-products',

@@ -1,0 +1,40 @@
+/* error.component.css */
+
+.error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f8f9fa; /* Light gray background */
+}
+
+.error-content {
+  text-align: center;
+}
+
+.error-content h1 {
+  font-size: 3rem;
+  color: #dc3545; /* Red color */
+  margin-bottom: 20px;
+}
+
+.error-content p {
+  font-size: 1.5rem;
+  color: #333333; /* Dark gray color */
+  margin-bottom: 30px;
+}
+
+.btn-back {
+  padding: 10px 20px;
+  background-color: #007bff; /* Blue color */
+  color: #ffffff; /* White color */
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-back:hover {
+  background-color: #0056b3; /* Darker shade of blue on hover */
+}
