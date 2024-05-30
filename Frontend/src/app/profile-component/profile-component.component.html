@@ -41,8 +41,8 @@
       <div class="card-body">
         <p>order id :: {{order.id}}</p>
         <p class="card-text">Order Price: {{ order.total_price }}</p>
-        <p class="card-text">Order Status: {{ order.status == "1" ? 'Accepted' : 'Pending' }}</p>
-        <button *ngIf="order.status === '0'" class="btn btn-danger" (click)="deleteOrder(order.id)">Delete Order</button>
+        <p class="card-text">Order Status: {{order.status}}</p>
+        <button *ngIf="order.status === 'pending'" class="btn btn-danger" (click)="deleteOrder(order.id)">Delete Order</button>
       </div>
     </div>
   </div>
