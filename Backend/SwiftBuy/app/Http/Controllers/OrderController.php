@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ApiResponse;
 use App\Http\Requests\OrderRequest;
+use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -16,7 +17,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::with('items')->get();
+        // $orders = Order::with('items')->get();
+        $orders = Order::get();
         return ApiResponse::sendResponse(200,"All Orders",$orders);
     }
 
@@ -55,33 +57,20 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,$id)
+    public function update(UpdateOrderRequest $request, $id)
     {
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'date' => 'required|date',
-            'total_price' => 'required|numeric',
-            'status' => 'required|in:0,1',
-            'items' => 'array',
-            'items.*.product_id' => 'required|exists:products,id',
-            'items.*.order_id' => 'required|exists:orders,id',
-            'items.*.quantity' => 'required|integer',
-            'items.*.price' => 'required|numeric'
-        ]);
+        $order = Order::find($id);
 
-        $order = Order::findOrFail($id);
-        $order->update($request->only(['user_id', 'date', 'total_price', 'status']));
-
-        if ($request->has('items')) {
-            foreach ($request->items as $itemData) {
-                $order->items()->updateOrCreate(
-                    ['id' => $itemData['id'] ?? null],
-                    $itemData
-                );
-            }
+        if (is_null($order)) {
+            return response()->json(['message' => 'Order not found'], 404);
         }
-        return ApiResponse::sendResponse(204,"Order Updated Successfully",$order->load('items'));
+
+        $order->fill($request->only(['user_id', 'date', 'total_price', 'status']));
+        $order->save();
+
+        return response()->json($order, 200);
     }
+
 
     /**
      * Remove the specified resource from storage.

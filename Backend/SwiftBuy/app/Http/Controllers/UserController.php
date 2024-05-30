@@ -32,56 +32,26 @@ class UserController extends Controller
         return ApiResponse::sendResponse(200, "User retrieved successfully", $user);
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
-        // Find the user by ID
         $user = User::find($id);
-        if (!$user) {
-            return ApiResponse::sendResponse(404, "User not found");
+
+        if (is_null($user)) {
+            return response()->json(['message' => 'User not found'], 404);
         }
 
-        // Define validation rules
-        $rules = [
-            'name' => 'sometimes|required|string',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'password' => 'sometimes|required|string|min:6',
-        ];
+        $user->fill($request->only(['name', 'email', 'gender', 'photo']));
 
-        // Define custom validation messages
-        $messages = [
-            'name.required' => 'The name field is required.',
-            'email.required' => 'The email field is required.',
-            'email.email' => 'The email must be a valid email address.',
-            'email.unique' => 'The email has already been taken.',
-            'password.required' => 'The password field is required.',
-            'password.min' => 'The password must be at least 6 characters.',
-        ];
-
-        try {
-            // Validate the request
-            $validatedData = $request->validate($rules, $messages);
-
-            // Update the user fields if provided in the request
-            if ($request->has('name')) {
-                $user->name = $request->name;
-            }
-            if ($request->has('email')) {
-                $user->email = $request->email;
-            }
-            if ($request->has('password')) {
-                $user->password = Hash::make($request->password);
-            }
-
-            // Save the updated user
-            $user->save();
-
-            // Return a successful response
-            return ApiResponse::sendResponse(200, "User updated successfully", $user);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            // Handle validation failure
-            return ApiResponse::sendResponse(400, "Validation Error", $e->errors());
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
         }
+
+        $user->save();
+
+        return response()->json($user, 200);
     }
+
+
 
     public function getOrderForUser($user_id, $order_id)
     {

@@ -42,7 +42,7 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return ApiResponse::sendResponse(200, "Fail data");
+            return ApiResponse::sendResponse(401, "Fail data");
         }
 
         $token = $user->createToken('apitoken')->plainTextToken;
