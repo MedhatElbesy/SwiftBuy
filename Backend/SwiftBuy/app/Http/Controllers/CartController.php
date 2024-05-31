@@ -17,7 +17,7 @@ class CartController extends Controller
     {
         // $user = Auth::user();
         // if($user){
-        //     $carts = Cart::where('user_id', $user->id)->get();
+            // $carts = Cart::where('user_id', $user->id)->get();
         $carts = Cart::where('user_id', 2)->get();
         return ApiResponse::sendResponse(200, 'Cart is found', $carts);
         // }
@@ -47,9 +47,12 @@ class CartController extends Controller
         // $user = Auth::user();
 
         // $cart = Cart::where('user_id', $user->id)
-        //$user = Auth::user();
+        // $user = Auth::user();
 
-        $cart = Cart::where('user_id', 1)
+        // $cart = Cart::where('user_id', 2
+        $user = Auth::user();
+        dd($user);
+        $cart = Cart::where('user_id', $user->id)
         ->where('product_id', $request->product_id)
         ->first();
 
@@ -58,8 +61,8 @@ class CartController extends Controller
         $cart->save();
         } else {
         $cart = Cart::updateOrCreate([
-            // 'user_id' => $user->id,
-            'user_id' => 1,
+            'user_id' => $user->id,
+            // 'user_id' => 2,
             'product_id' => $request->product_id,
             'quantity' => $request->quantity,
             'price' => $request->price,
