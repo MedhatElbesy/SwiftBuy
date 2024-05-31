@@ -1,25 +1,26 @@
-<div class="container-fluid my-5">
+<div class="container my-5">
   <div class="row justify-content-center">
     <div class="col-lg-8">
-      <div *ngFor="let order of orders; let i=index" class="order-card my-3 pb-3">
-        <div class="order-header d-flex justify-content-between align-items-center  bg-dark bg-opacity-50">
-          <div class="m-3">
-            <h5>Order Date: {{ order.created_at | date:'yyyy/MM/dd' }}</h5>
-            <p>ID: {{ order.id }}</p>
-            <p>Status: {{ order.status }}</p>
+      <div *ngFor="let order of orders; let i=index" class="order-card card shadow-sm mb-4">
+        <div class="order-header card-header d-flex justify-content-between align-items-center bg-dark text-white">
+          <div>
+            <h5 class="mb-1">Order Date: {{ order.created_at | date:'yyyy/MM/dd' }}</h5>
+            <p class="mb-0">ID: {{ order.id }}</p>
+            <p class="mb-0">Status: <span class="badge bg-primary">{{ order.status }}</span></p>
           </div>
-          <div class="order-actions mx-3">
-            <select class="form-select " aria-label="Change status" [(ngModel)]="order.status" (change)="editStatus($event, order.id)">
+          <div class="order-actions">
+            <select class="form-select" aria-label="Change status" [(ngModel)]="order.status" (change)="editStatus($event, order.id)">
+              <option value="pending">Pending</option>
               <option value="accepted">Accepted</option>
               <option value="rejected">Rejected</option>
             </select>
           </div>
         </div>
 
-        <div *ngIf="order.items && order.items.length > 0">
+        <div *ngIf="order.items && order.items.length > 0" class="card-body">
           <h6>Items:</h6>
           <div class="table-responsive">
-            <table class="table">
+            <table class="table table-striped">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -32,14 +33,14 @@
                 <tr *ngFor="let item of order.items">
                   <td>{{ item.id }}</td>
                   <td>{{ item.quantity }}</td>
-                  <td>{{ item.price }}</td>
-                  <td>{{ item.quantity * item.price }}</td>
+                  <td>{{ item.price | currency }}</td>
+                  <td>{{ item.quantity * item.price | currency }}</td>
                 </tr>
               </tbody>
             </table>
-            <div class="order-total text-end mb-3">
-              <strong>Total: {{ order.total_price }} EGP</strong>
-            </div>
+          </div>
+          <div class="order-total text-end">
+            <strong>Total: {{ order.total_price | currency }} EGP</strong>
           </div>
         </div>
       </div>

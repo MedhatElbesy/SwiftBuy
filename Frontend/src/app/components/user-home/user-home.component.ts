@@ -14,7 +14,7 @@ import { FooterComponent } from '../footer/footer.component';
     standalone: true,
     templateUrl: './user-home.component.html',
     styleUrl: './user-home.component.css',
-    imports: [FormsModule,RouterLink,HeaderComponent,FooterComponent,]
+    imports: [FormsModule,RouterLink,HeaderComponent,FooterComponent, CommonModule]
 })
 export class UserHomeComponent {
     products: Product[] = [];

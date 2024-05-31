@@ -1,0 +1,16 @@
+
+ul li {
+  list-style: none;
+  margin-right: 16px;
+}
+ul li a{
+  padding: 5px;
+}
+
+a:hover {
+  color: #a1a1a1;
+}
+
+li a.logout:hover {
+  color: #f0f0f0;
+}

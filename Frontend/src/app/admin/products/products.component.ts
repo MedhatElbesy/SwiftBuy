@@ -21,7 +21,7 @@ export class ProductsComponent implements OnInit{
 
   ngOnInit(): void {
       this.ProductAdminService.getAllProducts().subscribe((data:any)=>{
-        this.products=data;
+      this.products=data;
   });
 }
 goToAdd(){
