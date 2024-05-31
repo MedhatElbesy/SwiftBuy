@@ -18,6 +18,7 @@ class CartController extends Controller
         $user = Auth::user();
         if($user){
             $carts = Cart::where('user_id', $user->id)->get();
+            $carts = Cart::where('user_id', 2)->get();
             return ApiResponse::sendResponse(200, 'Cart is found', $carts);
         }
         else{
