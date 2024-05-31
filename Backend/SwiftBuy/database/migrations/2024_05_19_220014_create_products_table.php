@@ -18,8 +18,9 @@ return new class extends Migration
             $table->string('stock');
             $table->decimal('price',10,2);
             $table->enum('rating',[1,2,3,4,5]);
-            $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending')->default('pending');
-            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->enum('status', [0,1])->default(1);
+            // $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->foreignId('category_id')->nullable();
             $table->string('image')->nullable();
             $table->string('promotion')->nullable()->default('0');
             $table->string('final_price')->nullable();

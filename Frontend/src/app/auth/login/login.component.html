@@ -4,12 +4,12 @@
     <hr>
     <form #signInForm="ngForm" (ngSubmit)="login(signInForm)">
       <div class="form-group">
-        <label for="email">Email address</label>
+        <label for="email">Email</label>
         <input
           type="email"
           class="form-control"
           id="email"
-          placeholder="Text"
+          placeholder="Email"
           [(ngModel)]="user_mail"
           #validate_name="ngModel"
           name="email"

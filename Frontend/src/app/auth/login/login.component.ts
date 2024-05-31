@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { LogAuthService } from '../../services/log-auth.service';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +31,7 @@ export class LoginComponent implements OnDestroy {
     private localStorage: LocalStorageService,
     private router: Router,
     private userService: UserService,
-    private authService: AuthService
+    private logauthService: LogAuthService
   ) {}
   
 
@@ -71,7 +72,7 @@ export class LoginComponent implements OnDestroy {
               this.localStorage.setValue('token', response.body.data.token);
               this.localStorage.setValue('name', response.body.data.name);
               this.localStorage.setValue('id', response.body.data.id);
-              this.router.navigate(['/products']);
+              this.router.navigate(['/']);
             },
             error: (error) => {
               console.log(error);
@@ -87,7 +88,7 @@ export class LoginComponent implements OnDestroy {
               this.localStorage.setValue('id', response.body.data.id);
               this.localStorage.setValue('name', response.body.data.name);
               this.localStorage.setValue('role', 'admin');
-              this.router.navigate(['/products']);
+              this.router.navigate(['/']);
             },
             error: (error) => {
               console.log(error);
@@ -107,7 +108,7 @@ export class LoginComponent implements OnDestroy {
   }
 
   signin() {
-    this.authService.signin();
+    this.logauthService.signin();
     this.router.navigate(['/']);
   }
 

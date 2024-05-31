@@ -3,7 +3,8 @@ import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {  Router, RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { ProductAdminService } from '../../services/productAdmin.service';
 
 @Component({
   selector: 'app-products',
@@ -14,10 +15,12 @@ import {  Router, RouterLink } from '@angular/router';
 })
 export class ProductsComponent implements OnInit{
   products:Product[]=[];
-  constructor(private ProductService:ProductService, private router:Router){}
+  imageDirectoryPath: any = "http://127.0.0.1:8000/images/";
+
+  constructor(private ProductAdminService:ProductAdminService, private router:Router){}
 
   ngOnInit(): void {
-      this.ProductService.getAllProducts().subscribe((data:any)=>{
+      this.ProductAdminService.getAllProducts().subscribe((data:any)=>{
         this.products=data;
   });
 }
@@ -26,6 +29,9 @@ goToAdd(){
 }
 
 toggleStatus(product: Product): void {
-  //still need logic
+  const newStatus = product.status === '1' ? '0' : '1'; // Toggle status
+  this.ProductAdminService.updateProductStatus(product.id, newStatus).subscribe(() => {
+    product.status = newStatus;
+  });
 }
 }
