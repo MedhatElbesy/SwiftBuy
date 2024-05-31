@@ -42,6 +42,9 @@ class CartController extends Controller
         // dd($user = Auth::user()->id);
         $user = Auth::user();
 
+
+
+
         $cart = Cart::where('user_id', $user->id)
         ->where('product_id', $request->product_id)
         ->first();
@@ -52,6 +55,7 @@ class CartController extends Controller
         } else {
         $cart = Cart::updateOrCreate([
             'user_id' => $user->id,
+            //'user_id' => $request->user_id,
             'product_id' => $request->product_id,
             'quantity' => $request->quantity,
             'price' => $request->price,

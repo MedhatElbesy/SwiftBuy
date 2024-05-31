@@ -18,7 +18,11 @@ export class CartService {
 
   addToCart(product: any): Observable<any> {
     return this.http.post(this.apiUrl, product,{ headers: this.getHeaders() });
+    //return this.http.post(this.apiUrl, product);
   }
+
+
+
 
   delete(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
