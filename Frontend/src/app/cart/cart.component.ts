@@ -95,7 +95,7 @@ export class CartComponent implements OnInit {
     this.cartService.createOrder(orderRequest).subscribe(
       (order) => {
         console.log('Order created successfully:', order);
-        this.router.navigate(['/products']); // Navigate to order confirmation page
+        this.router.navigate(['/users']); // Navigate to order confirmation page
       },
       (error) => {
         console.error('Error creating order:', error);
