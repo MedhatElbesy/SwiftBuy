@@ -22,7 +22,7 @@ export class CartService {
   }
 
   addToCart(item: Cart): Observable<Cart> {
-    return this.http.post<Cart>(this.apiUrl, item);
+    return this.http.post<Cart>(this.apiUrl, item, { headers: this.getHeaders() });
   }
 
   getCart(): Observable<Cart[]> {

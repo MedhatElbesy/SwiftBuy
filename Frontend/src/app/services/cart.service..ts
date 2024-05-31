@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -9,9 +9,15 @@ export class CartService {
   private apiUrl = 'http://127.0.0.1:8000/api/user/carts';
 
   constructor(private http: HttpClient) { }
+  private getHeaders() {
+    const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  }
 
   addToCart(product: any): Observable<any> {
-    return this.http.post(this.apiUrl, product);
+    return this.http.post(this.apiUrl, product,{ headers: this.getHeaders() });
   }
 
   delete(id: number): Observable<any> {
