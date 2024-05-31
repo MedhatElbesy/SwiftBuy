@@ -17,8 +17,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        // $orders = Order::with('items')->get();
-        $orders = Order::get();
+        $orders = Order::with('items')->get();
+        // $orders = Order::get();
         return ApiResponse::sendResponse(200,"All Orders",$orders);
     }
 
@@ -28,7 +28,7 @@ class OrderController extends Controller
     public function store(OrderRequest $request)
     {
         $request->validated();
-        $order = Order::create($request->only(['user_id', 'date','status']));
+        $order = Order::create($request->only(['user_id', 'date','status','total_price']));
 
         $total = [] ;
         if ($request->has('items')) {
@@ -102,5 +102,22 @@ class OrderController extends Controller
         }
 
         return ApiResponse::sendResponse(200,"All Orders ",$orders);
+    }
+
+
+    public function reject(string $id)
+    {
+
+            $Order = Order::findOrFail($id);
+            $Order ->update(['status' => 'rejected']);
+            return response()->json($Order,202);
+    }
+
+
+    public function accept(Request $request, string $id)
+    {
+        $Order = Order::find($id);
+        $Order ->update(['status'=> 'accepted']);
+        return response()->json($Order,200);
     }
 }

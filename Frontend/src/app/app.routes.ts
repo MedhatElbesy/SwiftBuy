@@ -17,6 +17,7 @@ import { AuthGuard } from './guard/auth.guard';
 import { Error404Component } from './error/404/404.component';
 import { DeleteProductComponent } from './admin/products/delete-product/delete-product.component';
 import { CartComponent } from './cart/cart.component';
+import { UserOrdersComponent } from './admin/user-orders/user-orders.component';
 
 export const routes: Routes = [
   { path: '', component: UserHomeComponent },
@@ -33,6 +34,7 @@ export const routes: Routes = [
       { path: 'products', component: ProductAdminComponent },
       { path: 'product/add', component: AddProductComponent },
       { path: 'product/edit/:id', component: EditProductComponent },
+      { path: 'orders', component: UserOrdersComponent },
       { path: 'product/delete/:id', component: DeleteProductComponent },
     ],
   },
