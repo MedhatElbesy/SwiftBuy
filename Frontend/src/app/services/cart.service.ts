@@ -9,9 +9,14 @@ import { Cart, ApiResponse } from '../models/cart';
   providedIn: 'root'
 })
 export class CartService {
-  private apiUrl = 'http://localhost:8000/api/user/carts';
+  // private apiUrl = 'http://localhost:8000/api/user/carts';
+  private apiUrl = 'http://localhost:8000/api/carts';
 
   constructor(private http: HttpClient) { }
+
+  addToCart(item: Cart): Observable<Cart> {
+    return this.http.post<Cart>(this.apiUrl, item);
+  }
 
   getCart(): Observable<Cart[]> {
     return this.http.get<ApiResponse>(this.apiUrl).pipe(
