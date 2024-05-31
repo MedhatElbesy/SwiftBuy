@@ -75,7 +75,9 @@ Route::group(["prefix" => "user/"],function(){
     Route::get('products/{id}', [ProductController::class, 'show']);
     // Route::group(["middleware" => "auth:api"] , function(){
 
-    Route::resource('carts',CartController::class);
+        Route::group(["middleware" => "auth:api"] , function(){
+            Route::resource('carts',CartController::class);
+        });
 
     // });
 
