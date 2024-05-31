@@ -8,7 +8,7 @@ import { map,tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ProductAdminService {
-  private baseUrl = 'http://localhost:8000/api/user/products/';
+  private baseUrl = 'http://localhost:8000/api/admin/products/';
 
 
   constructor(private http: HttpClient) { }
