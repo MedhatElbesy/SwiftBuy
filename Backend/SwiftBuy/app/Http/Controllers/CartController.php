@@ -94,8 +94,8 @@ class CartController extends Controller
             'price' => 'sometimes|required|numeric',
         ]);
 
-        $user = Auth::user();
-        $cart = Cart::where('user_id', $user->id)->findOrFail($id);
+       // $user = Auth::user();
+        $cart = Cart::where('user_id', 2)->findOrFail($id);
 
         if ($request->has('quantity')) {
             $cart->quantity = $request->quantity;

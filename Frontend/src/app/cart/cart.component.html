@@ -1,13 +1,31 @@
 <!-- src/app/cart/cart.component.html -->
-<h1>hello from cart</h1>
-<div *ngIf="cartItems.length > 0; else emptyCart">
-  <div *ngFor="let item of cartItems">
-    <h3>Product ID: {{ item.product_id }}</h3>
-    <p>Quantity: {{ item.quantity }}</p>
-    <p>Price: {{ item.price }}</p>
+<div class="container">
+  <h1 class="my-4">Cart Items</h1>
+  <div *ngIf="cartItems.length > 0; else emptyCart">
+    <table class="table table-striped table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Product ID</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Total Price</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of cartItems">
+          <td>{{ item.product_id }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.price * item.quantity }}</td>
+          <td>
+            <button class="btn btn-primary btn-sm" (click)="increaseQuantity(item)">+</button>
+            <button class="btn btn-danger btn-sm" (click)="decreaseQuantity(item)">-</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-</div>
 
-<ng-template #emptyCart>
-  <p>Your cart is empty.</p>
-</ng-template>
+  <ng-template #emptyCart>
+    <p class="alert alert-warning">Your cart is empty.</p>
+  </ng-template>
+</div>

@@ -1,5 +1,5 @@
 export class Cart {
-  constructor(public id:number,public user_id:number,public price:string,public product_id:number,
+  constructor(public id:number,public user_id:number,public price:number,public product_id:number,
     public quantity:number
   ){}
 }
