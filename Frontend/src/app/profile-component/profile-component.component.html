@@ -30,9 +30,13 @@
         <div class="card-body">
           <h5 class="card-title">Order Details</h5>
           <hr>
-          <p class="card-text"><strong>Order Price:</strong> ${{ order.total_price }}</p>
-          <p class="card-text"><strong>Order Status:</strong> <span [ngStyle]="{ 'color': getStatusColor(order.status) }"> {{ order.status }}</span></p>
-          <button *ngIf="order.status === 'pending'" class="btn btn-danger btn-sm" (click)="deleteOrder(order.id)">Delete Order</button>
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <p class="card-text"><strong>Order Price:</strong> ${{ order.total_price }}</p>
+              <p class="card-text mb-0"><strong>Order Status:</strong> <span [ngStyle]="{ 'color': getStatusColor(order.status) }"> {{ order.status }}</span></p>
+            </div>
+            <button *ngIf="order.status === 'pending'" class="btn fs-4" (click)="deleteOrder(order.id)">🗑</button>
+          </div>
         </div>
       </div>
     </div>
