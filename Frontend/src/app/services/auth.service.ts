@@ -12,4 +12,7 @@ export class AuthService {
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }
+  isAdmin(): boolean {
+    return !!localStorage.getItem('role');
+  }
 }
