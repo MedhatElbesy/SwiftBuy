@@ -62,27 +62,35 @@ Route::group(["prefix" => "admin/"],function(){
         Route::resource('orders', OrderController::class);
         Route::resource('products', ProductController::class);
 
+});
+// Route::put('orders',[OrderController::class,'update']);
+Route::group(["prefix" => "user/"],function(){
+    //http://localhost:8000/api/user/products must be login as user and featch with token
+
+    // Route::resource('products', ProductController::class);
+    Route::get('products', [ProductController::class, 'index']);
+    // Route::resource('products', ProductController::class);
+    Route::get('products/{id}', [ProductController::class, 'show']);
+    // Route::group(["middleware" => "auth:api"] , function(){
+
+    Route::resource('carts',CartController::class);
+
+    });
+
+    Route::controller(AuthController::class)->group(function (){
+        //http://localhost:8000/api/user/register
+        Route::post('register','register');
+        //http://localhost:8000/api/user/login
+        Route::post('login','login');
+        //http://localhost:8000/api/user/login must be login as user and logout with token
+        Route::post('logout','logout')->middleware('auth:sanctum');
     });
 
 });
 
-    Route::group(["prefix" => "user/"],function(){
-
-        Route::get('products', [ProductController::class, 'index']);
-
-        Route::group(["middleware" => "auth:api"] , function(){
-            Route::resource('carts',CartController::class);
-        });
-
-        Route::controller(AuthController::class)->group(function (){
-            Route::post('register','register');
-            Route::post('login','login');
-            Route::post('logout','logout')->middleware('auth:sanctum');
-        });
-    });
+Route::resource('orders', OrderController::class);
 
 Route::resource("users",UserController::class);
-// Route::resource('carts',CartController::class);
 
 
 

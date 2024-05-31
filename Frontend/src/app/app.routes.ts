@@ -18,6 +18,7 @@ import { Error404Component } from './error/404/404.component';
 import { DeleteProductComponent } from './admin/products/delete-product/delete-product.component';
 import { CartComponent } from './cart/cart.component';
 import { UserOrdersComponent } from './admin/user-orders/user-orders.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 export const routes: Routes = [
   { path: '', component: UserHomeComponent },
@@ -26,6 +27,7 @@ export const routes: Routes = [
   { path: 'products', component: ProductsComponent, canActivate: [AuthGuard] },
   { path: 'products/:id', component: ProductDetailsComponent },
   { path: 'carts', component:CartComponent},
+  { path: 'users/edit' , component: EditProfileComponent},
   {
     path: 'dashboard',
     component: AdminComponent,
