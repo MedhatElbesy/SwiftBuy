@@ -16,6 +16,10 @@ import { ContactComponent } from './components/contact/contact.component';
 import { AuthGuard } from './guard/auth.guard';
 import { Error404Component } from './error/404/404.component';
 import { AdminGuard } from './guard/role.guard';
+import { DeleteProductComponent } from './admin/products/delete-product/delete-product.component';
+import { CartComponent } from './cart/cart.component';
+import { UserOrdersComponent } from './admin/user-orders/user-orders.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 export const routes: Routes = [
   { path: '', component: UserHomeComponent },
@@ -23,6 +27,9 @@ export const routes: Routes = [
   { path: 'contact', component: ContactComponent },
   { path: 'products', component: ProductsComponent, canActivate: [AuthGuard] },
   { path: 'products/:id', component: ProductDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'products/:id', component: ProductDetailsComponent },
+  { path: 'carts', component:CartComponent},
+  { path: 'users/edit' , component: EditProfileComponent},
   {
     path: 'dashboard',
     component: AdminComponent,
@@ -31,6 +38,8 @@ export const routes: Routes = [
       { path: 'products', component: ProductAdminComponent },
       { path: 'product/add', component: AddProductComponent },
       { path: 'product/edit/:id', component: EditProductComponent },
+      { path: 'orders', component: UserOrdersComponent },
+      { path: 'product/delete/:id', component: DeleteProductComponent },
     ],
   },
   { path: 'users', component: ProfileComponentComponent },

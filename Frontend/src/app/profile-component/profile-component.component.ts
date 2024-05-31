@@ -7,11 +7,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Order } from '../models/order';
 import Swal from 'sweetalert2';
+import { HeaderComponent } from '../components/header/header.component';
 
 @Component({
   selector: 'app-profile-component',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule],
+  imports: [CommonModule,ReactiveFormsModule,HeaderComponent],
   templateUrl: './profile-component.component.html',
   styleUrl: './profile-component.component.css'
 })
@@ -34,30 +35,41 @@ export class ProfileComponentComponent implements OnInit , OnDestroy
   }
 
   ngOnInit(): void {
-    const userId = 1;  // specify the user ID you want to fetch
-    this.sub = this.profileService.getById(userId).subscribe(data => {
-      this.user = data;
-      this.updateForm.patchValue({
-        name: data.name,
-        email: data.email,
-        gender: data.gender
+    //const storedUserId = localStorage.getItem('userId');
+    const storedUserId = localStorage.getItem('id');
+    if (storedUserId) {
+      const userId = +storedUserId; // specify the user ID you want to fetch
+      this.sub = this.profileService.getById(userId).subscribe(data => {
+        this.user = data;
+        this.updateForm.patchValue({
+          name: data.name,
+          email: data.email,
+          gender: data.gender
+        });
       });
-    });
 
-    this.orderSub = this.profileService.getUserOrders(userId).subscribe(data => {
-      this.orders = data;
-    });
+      this.orderSub = this.profileService.getUserOrders(userId).subscribe(data => {
+        this.orders = data;
+      });
+    }else {
+      console.error('No userId found in localStorage');
+    }
   }
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
     this.orderSub?.unsubscribe();
   }
   onSubmit(): void {
-    if (this.user) {
+    const storedUserId = localStorage.getItem('id');
+    if (storedUserId) {
+      const userId = +storedUserId;
+      console.log("user id is", userId);
       const updatedData = this.updateForm.value;
-      this.profileService.updateUser(1, updatedData).subscribe(updatedUser => {
+      this.profileService.updateUser(userId, updatedData).subscribe(updatedUser => {
         this.user = updatedUser;
       });
+    } else {
+      console.error('User ID not found in local storage.');
     }
   }
 
@@ -93,6 +105,8 @@ export class ProfileComponentComponent implements OnInit , OnDestroy
     });
   }
 
-
+navigation(){
+    this.router.navigate(['/users/edit']);
+  }
 
 }

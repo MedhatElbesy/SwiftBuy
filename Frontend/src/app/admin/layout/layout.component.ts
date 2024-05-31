@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-layout',
@@ -9,5 +9,11 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   styleUrl: './layout.component.css'
 })
 export class LayoutComponent {
-
+  currentRoute: string;
+  constructor(private router: Router, private route: ActivatedRoute) {
+    this.currentRoute = '';
+  }
+  isActive(url: string): boolean {
+    return this.currentRoute === url;
+  }
 }
