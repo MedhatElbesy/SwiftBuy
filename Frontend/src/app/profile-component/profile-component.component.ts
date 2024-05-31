@@ -73,6 +73,20 @@ export class ProfileComponentComponent implements OnInit , OnDestroy
     }
   }
 
+  getStatusColor(status: string): string {
+    switch(status) {
+      case 'pending':
+        return '#007bff'; // blue
+      case 'rejected':
+        return '#dc3545'; // red
+      case 'accepted':
+        return '#28a745'; // green
+      default:
+        return '#fff'; // default color (white)
+    }
+  }
+
+
   deleteOrder(orderId: number): void {
     Swal.fire({
       title: 'Are you sure?',
