@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 
 import { NgIf } from '@angular/common';
 import { LogAuthService } from '../../services/log-auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +14,7 @@ import { LogAuthService } from '../../services/log-auth.service';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  constructor(public authService: LogAuthService, private router: Router) {}
+  constructor(public authService: LogAuthService, public role: AuthService, private router: Router) {}
 
   logout() {
     if (confirm('Do you really want to log out?')) {
