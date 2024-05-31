@@ -31,9 +31,9 @@ class ProductRequest extends FormRequest
             'stock'       => 'required',
             'image'       => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'promotion'   => 'nullable',
-            'category_id' => ['required',
-                Rule::exists('categories', 'id'),
-            ],
+            // 'category_id' => ['required',
+            //     Rule::exists('categories', 'id'),
+            // ],
         ];
     }
 
@@ -45,7 +45,7 @@ class ProductRequest extends FormRequest
             'status.required'      => 'A status is required',
             'stock.required'       => 'A stock image is required',
             'price.required'       => 'A stock price is required',
-            'category_id.required' => 'Category ID is required and must exist',
+            // 'category_id.required' => 'Category ID is required and must exist',
         ];
     }
 
