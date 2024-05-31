@@ -49,10 +49,10 @@ class CartController extends Controller
         // $cart = Cart::where('user_id', $user->id)
         // $user = Auth::user();
 
-        // $cart = Cart::where('user_id', 2
         $user = Auth::user();
-        dd($user);
-        $cart = Cart::where('user_id', $user->id)
+        // dd($user);
+        // $cart = Cart::where('user_id', $user->id)
+        $cart = Cart::where('user_id', 2)
         ->where('product_id', $request->product_id)
         ->first();
 
@@ -61,8 +61,8 @@ class CartController extends Controller
         $cart->save();
         } else {
         $cart = Cart::updateOrCreate([
-            'user_id' => $user->id,
-            // 'user_id' => 2,
+            // 'user_id' => $user->id,
+            'user_id' => 2,
             'product_id' => $request->product_id,
             'quantity' => $request->quantity,
             'price' => $request->price,
