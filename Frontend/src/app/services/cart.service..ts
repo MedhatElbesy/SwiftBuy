@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { ApiResponse, Cart } from '../models/cart';
 
 @Injectable({
   providedIn: 'root',
@@ -31,4 +32,14 @@ export class CartService {
   // getCartItems(userId: number): Observable<any> {
   //   return this.http.get(`${this.apiUrl}?user_id=${userId}`);
   // }
+  getCart(): Observable<Cart[]> {
+    return this.http.get<ApiResponse>(this.apiUrl, { headers: this.getHeaders() }).pipe(
+      map(response => response.data)
+    );
+  }
+  isProductInCart(productId: number): Observable<boolean> {
+    return this.getCart().pipe(
+      map(cartItems => cartItems.some(item => item.product_id === productId))
+    );
+  }
 }

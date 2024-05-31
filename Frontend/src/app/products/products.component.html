@@ -1,6 +1,12 @@
 <!-- src/app/product/product.component.html -->
 <app-header/>
+<!-- Success Message -->
+<div id="success-alert" *ngIf="successMessage" class="alert alert-success alert-dismissible fade show w-50 mx-auto" role="alert">
+  {{ successMessage }}
+  <!-- <button type="button" class="btn-close" (click)="clearSuccessMessage()"></button> -->
+</div>
 <div class="container mt-4">
+
   <!-- Search Bar -->
   <div class="row mb-5 w-50 mx-auto">
     <div class="col">

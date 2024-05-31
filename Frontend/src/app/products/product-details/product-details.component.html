@@ -1,5 +1,11 @@
 <app-header/>
 <div class="container mt-5">
+  <!-- Success Message -->
+  <div id="success-alert" *ngIf="successMessage" class="alert alert-success alert-dismissible fade show w-50 mx-auto"
+    role="alert">
+    {{ successMessage }}
+    <!-- <button type="button" class="btn-close" (click)="clearSuccessMessage()"></button> -->
+  </div>
   <div class="card mt-5 mx-auto custom-card" style="max-width: 600px;">
     <div class="custom-card-image">
       <img [src]="imageDirectoryPath+product?.image" alt="Product Image" class="img-fluid rounded mb-4 custom-img">
