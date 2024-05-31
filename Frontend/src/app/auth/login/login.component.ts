@@ -8,6 +8,8 @@ import { LoggedInUser } from '../../models/logged-in-user';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { LogAuthService } from '../../services/log-auth.service';
 
 @Component({
   selector: 'app-login',
@@ -28,8 +30,10 @@ export class LoginComponent implements OnDestroy {
   constructor(
     private localStorage: LocalStorageService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private logauthService: LogAuthService
   ) {}
+  
 
   togglePasswordVisibility() {
     if (this.passwordFieldType === 'password') {
@@ -102,4 +106,10 @@ export class LoginComponent implements OnDestroy {
       this.loginProcess.unsubscribe();
     }
   }
+
+  signin() {
+    this.logauthService.signin();
+    this.router.navigate(['/']);
+  }
+
 }

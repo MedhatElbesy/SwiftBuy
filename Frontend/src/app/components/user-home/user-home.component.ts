@@ -7,13 +7,14 @@ import { RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
+import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 
 @Component({
     selector: 'app-user-home',
     standalone: true,
     templateUrl: './user-home.component.html',
     styleUrl: './user-home.component.css',
-    imports: [CommonModule, FormsModule,RouterLink,HeaderComponent,FooterComponent]
+    imports: [CommonModule, FormsModule,RouterLink,HeaderComponent,FooterComponent,CarouselModule]
 })
 export class UserHomeComponent {
     products: Product[] = [];
@@ -33,4 +34,30 @@ export class UserHomeComponent {
           },
         });
       }
+
+
+      customOptions: OwlOptions = {
+        loop: true,
+        mouseDrag: true,
+        touchDrag: true,
+        pullDrag: true,
+        dots: true,
+        navSpeed: 700,
+        navText: ['', ''],
+        responsive: {
+          0: {
+            items: 1
+          },
+          400: {
+            items: 2
+          },
+          740: {
+            items: 3
+          },
+          940: {
+            items: 4
+          }
+        },
+        nav: true
+    }
 }
