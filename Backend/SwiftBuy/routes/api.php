@@ -83,7 +83,7 @@ Route::group(["prefix" => "user/"],function(){
     Route::get('products', [ProductController::class, 'index']);
     // Route::group(["middleware" => "auth:api"] , function(){
 
-    // Route::resource('carts',CartController::class);
+    Route::resource('carts',CartController::class);
 
     // });
 
@@ -97,7 +97,7 @@ Route::group(["prefix" => "user/"],function(){
     });
 });
 
-// Route::resource('orders', OrderController::class);
+Route::resource('orders', OrderController::class);
 
 Route::get('users/{user_id}/orders', [OrderController::class, 'getOrdersForUser']);
 Route::resource("users",UserController::class);
