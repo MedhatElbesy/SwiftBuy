@@ -10,6 +10,7 @@ export class Product {
     public category_id: number,
     public image?: string,
     public promotion?: number,
+    public quantity?: number
   ) { }
 
 }

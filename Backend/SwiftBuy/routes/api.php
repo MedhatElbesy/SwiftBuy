@@ -52,7 +52,7 @@ Route::group(["prefix" => "admin/"],function(){
         Route::post('login', 'login');
         Route::post('logout', 'logout')->middleware('auth:admin-api');
     });
-        Route::resource('products', ProductController::class);
+        // Route::resource('products', ProductController::class);
         Route::resource('categories', CategoryController::class);
 
         Route::get("orders/{id}/reject",[OrderController::class,'reject']);
@@ -60,6 +60,8 @@ Route::group(["prefix" => "admin/"],function(){
 
     Route::group(["middleware" => "auth:admin-api"] , function(){
         Route::resource('orders', OrderController::class);
+        Route::resource('products', ProductController::class);
+
     });
 
 });
@@ -80,6 +82,7 @@ Route::group(["prefix" => "admin/"],function(){
     });
 
 Route::resource("users",UserController::class);
+// Route::resource('carts',CartController::class);
 
 
 
