@@ -75,7 +75,7 @@ Route::group(["prefix" => "user/"],function(){
 
     Route::resource('carts',CartController::class);
 
-    });
+});
 
     Route::controller(AuthController::class)->group(function (){
         //http://localhost:8000/api/user/register
