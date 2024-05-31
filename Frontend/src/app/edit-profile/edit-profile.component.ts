@@ -7,11 +7,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Order } from '../models/order';
 import Swal from 'sweetalert2';
+import { HeaderComponent } from '../components/header/header.component';
 
 @Component({
     selector: 'app-edit-profile',
     standalone: true,
-    imports: [CommonModule,ReactiveFormsModule],
+    imports: [CommonModule,ReactiveFormsModule,HeaderComponent],
     templateUrl: './edit-profile.component.html',
     styleUrl: './edit-profile.component.css'
 })
