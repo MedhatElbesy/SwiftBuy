@@ -78,12 +78,12 @@ Route::group(["prefix" => "user/"],function(){
     //http://localhost:8000/api/user/products must be login as user and featch with token
 
     // Route::resource('products', ProductController::class);
-    // Route::get('products', [ProductController::class, 'index']);
-    // Route::resource('products', ProductController::class);
     Route::get('products', [ProductController::class, 'index']);
+    // Route::resource('products', ProductController::class);
+    Route::get('products/{id}', [ProductController::class, 'show']);
     // Route::group(["middleware" => "auth:api"] , function(){
 
-    // Route::resource('carts',CartController::class);
+    Route::resource('carts',CartController::class);
 
     // });
 
@@ -101,7 +101,6 @@ Route::group(["prefix" => "user/"],function(){
 
 Route::get('users/{user_id}/orders', [OrderController::class, 'getOrdersForUser']);
 Route::resource("users",UserController::class);
-Route::resource('carts',CartController::class);
 
 
 
