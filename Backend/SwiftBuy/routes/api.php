@@ -41,7 +41,9 @@ use App\Http\Controllers\CartController;
 //     Route::post('user/products', [ProductController::class, 'store']);
 // });
 
-
+Route::group(['prefix' => 'user', 'middleware' => 'auth:api'], function() {
+    Route::resource('carts', CartController::class);
+});
 Route::get('users/{user_id}/orders', [OrderController::class, 'getOrdersForUser']);
 
 Route::group(["prefix" => "admin/"],function(){
@@ -75,7 +77,7 @@ Route::group(["prefix" => "user/"],function(){
     Route::get('products/{id}', [ProductController::class, 'show']);
     // Route::group(["middleware" => "auth:api"] , function(){
 
-    Route::resource('carts',CartController::class);
+    //Route::resource('carts',CartController::class);
 
     // });
 
