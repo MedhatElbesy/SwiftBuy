@@ -43,30 +43,56 @@ export class ProductsComponent implements OnInit {
       this.filteredProducts = this.products;
     }
   }
-  addToCart(product: any): void {
-    const cart_id = localStorage.getItem('cart_id');
+  addToCart(product: Product): void {
+    const userId = localStorage.getItem('id'); // Retrieve the user_id from local storage
+    console.log(userId);
 
+
+    if (!userId) {
+      console.error('User ID is not available in local storage');
+      return;
+    }
 
     const newItem = {
+      user_id: Number(userId), // Ensure user_id is a number
       product_id: product.id,
-      quantity: 1,
-      cart_id: cart_id,
+      quantity: product.quantity,
+      price: product.price, // Assuming price is part of the product object
     };
 
     this.cartService.addToCart(newItem).subscribe(
       (response) => {
         console.log('Item added to cart:', response);
-        if (!localStorage.getItem('cart_id')) {
-          localStorage.setItem('cart_id', response.data.id);
-        }
-
       },
       (error) => {
         console.error('Error adding item to cart:', error);
-
       }
     );
   }
+  // addToCart(product: any): void {
+  //   const cart_id = localStorage.getItem('cart_id');
+
+
+  //   const newItem = {
+  //     product_id: product.id,
+  //     quantity: 1,
+  //     cart_id: cart_id,
+  //   };
+
+  //   this.cartService.addToCart(newItem).subscribe(
+  //     (response) => {
+  //       console.log('Item added to cart:', response);
+  //       if (!localStorage.getItem('cart_id')) {
+  //         localStorage.setItem('cart_id', response.data.id);
+  //       }
+
+  //     },
+  //     (error) => {
+  //       console.error('Error adding item to cart:', error);
+
+  //     }
+  //   );
+  // }
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
