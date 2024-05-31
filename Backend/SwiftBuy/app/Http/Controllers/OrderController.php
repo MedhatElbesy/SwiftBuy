@@ -26,25 +26,25 @@ class OrderController extends Controller
 
 
 
-    // public function store(OrderRequest $request)
-    // {
-    //     $request->validated();
-    //     $order = Order::create($request->only(['user_id', 'date','status','total_price']));
+    public function store(OrderRequest $request)
+    {
+        $request->validated();
+        $order = Order::create($request->only(['user_id', 'date','status','total_price']));
 
-    //     $total = [] ;
-    //     if ($request->has('items')) {
-    //         foreach ($request->items as $key => $item) {
-    //             $product = Product::find($item['product_id']);
-    //             $total [] = $item['quantity'] * $product->final_price ;
-    //             $order->items()->create($item);
-    //         }
-    //     }
-    //     $final = array_sum($total);
+        $total = [] ;
+        if ($request->has('items')) {
+            foreach ($request->items as $key => $item) {
+                $product = Product::find($item['product_id']);
+                $total [] = $item['quantity'] * $product->final_price ;
+                $order->items()->create($item);
+            }
+        }
+        $final = array_sum($total);
 
-    //     $order->total_price = $final ;
-    //     $order->save();
-    //     return ApiResponse::sendResponse(201,"Order Created Successfully",$order->load('items'));
-    // }
+        $order->total_price = $final ;
+        $order->save();
+        return ApiResponse::sendResponse(201,"Order Created Successfully",$order->load('items'));
+    }
 
     /**
      * Display the specified resource.
@@ -52,51 +52,51 @@ class OrderController extends Controller
 
 
 
-    public function store(OrderRequest $request)
-    {
-        $user = Auth::user();
-        $userId = $user->id;
+    // public function store(OrderRequest $request)
+    // {
+    //     $user = Auth::user();
+    //     $userId = $user->id;
 
-        $validated = $request->validated();
+    //     $validated = $request->validated();
 
-        DB::beginTransaction();
+    //     DB::beginTransaction();
 
-        try {
-            $order = Order::create([
-                'user_id' => $userId,
-                'date' => $validated['date'],
-                'status' => $validated['status'],
-                'total_price' => 0,
-            ]);
+    //     try {
+    //         $order = Order::create([
+    //             'user_id' => $userId,
+    //             'date' => $validated['date'],
+    //             'status' => $validated['status'],
+    //             'total_price' => 0,
+    //         ]);
 
-            $total = 0;
+    //         $total = 0;
 
-            foreach ($validated['items'] as $item) {
-                $product = Product::find($item['product_id']);
-                $itemTotalPrice = $item['quantity'] * $product->final_price;
-                $total += $itemTotalPrice;
+    //         foreach ($validated['items'] as $item) {
+    //             $product = Product::find($item['product_id']);
+    //             $itemTotalPrice = $item['quantity'] * $product->final_price;
+    //             $total += $itemTotalPrice;
 
-                $order->items()->create([
-                    'product_id' => $item['product_id'],
-                    'quantity' => $item['quantity'],
-                    'price' => $product->final_price,
-                ]);
-            }
+    //             $order->items()->create([
+    //                 'product_id' => $item['product_id'],
+    //                 'quantity' => $item['quantity'],
+    //                 'price' => $product->final_price,
+    //             ]);
+    //         }
 
-            $order->total_price = $total;
-            $order->save();
+    //         $order->total_price = $total;
+    //         $order->save();
 
-            Cart::where('user_id', $userId)->delete();
+    //         Cart::where('user_id', $userId)->delete();
 
-            DB::commit();
+    //         DB::commit();
 
-            return ApiResponse::sendResponse(201, "Order Created Successfully", $order->load('items'));
+    //         return ApiResponse::sendResponse(201, "Order Created Successfully", $order->load('items'));
 
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return ApiResponse::sendResponse(500, "Order Creation Failed", $e->getMessage());
-        }
-    }
+    //     } catch (\Exception $e) {
+    //         DB::rollBack();
+    //         return ApiResponse::sendResponse(500, "Order Creation Failed", $e->getMessage());
+    //     }
+    // }
 
 
 

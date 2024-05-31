@@ -6,17 +6,11 @@
               <h3>SwiftBuy</h3>
           </div>
           <ul class="list-unstyled components">
-            <li [class.active]="isActive('/dashboard')">
-              <a routerLink="/dashboard" aria-expanded="false">Home</a>
-            </li>
             <li [class.active]="isActive('/dashboard/products')">
               <a routerLink="/dashboard/products" aria-expanded="false">Products</a>
             </li>
             <li [class.active]="isActive('/dashboard/orders')">
               <a routerLink="/dashboard/orders" aria-expanded="false">Orders</a>
-            </li>
-            <li [class.active]="isActive('/dashboard/profile')">
-              <a routerLink="/dashboard/profile" aria-expanded="false">Profile</a>
             </li>
           </ul>
 
