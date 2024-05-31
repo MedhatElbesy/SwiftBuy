@@ -59,11 +59,16 @@ export class ProfileComponentComponent implements OnInit , OnDestroy
     this.orderSub?.unsubscribe();
   }
   onSubmit(): void {
-    if (this.user) {
+    const storedUserId = localStorage.getItem('id');
+    if (storedUserId) {
+      const userId = +storedUserId;
+      console.log("user id is", userId);
       const updatedData = this.updateForm.value;
-      this.profileService.updateUser(1, updatedData).subscribe(updatedUser => {
+      this.profileService.updateUser(userId, updatedData).subscribe(updatedUser => {
         this.user = updatedUser;
       });
+    } else {
+      console.error('User ID not found in local storage.');
     }
   }
 
