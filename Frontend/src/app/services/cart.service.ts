@@ -20,4 +20,8 @@ export class CartService {
   }
 
   // Add other cart-related methods if necessary
+  updateCartItem(item: Cart): Observable<Cart> {
+    const url = `${this.apiUrl}/${item.id}`;
+    return this.http.put<Cart>(url, item);
+  }
 }
