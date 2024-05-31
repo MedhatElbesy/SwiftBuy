@@ -15,24 +15,14 @@ class CartController extends Controller
      */
     public function index()
     {
-        // $user = Auth::user();
-        // if($user){
-            // $carts = Cart::where('user_id', $user->id)->get();
-        $carts = Cart::where('user_id', 2)->get();
-        return ApiResponse::sendResponse(200, 'Cart is found', $carts);
-        // }
-        // else{
-        // return ApiResponse::sendResponse(400, 'Not autherized');
-        // }
-
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $user = Auth::user();
+        if($user){
+            $carts = Cart::where('user_id', $user->id)->get();
+            return ApiResponse::sendResponse(200, 'Cart is found', $carts);
+        }
+        else{
+            return ApiResponse::sendResponse(400, 'Not autherized');
+        }
     }
 
     /**
@@ -44,15 +34,10 @@ class CartController extends Controller
             'quantity' => 'sometimes|required|integer',
             'price' => 'sometimes|required|numeric',
         ]);
-        // $user = Auth::user();
+        // dd($user = Auth::user()->id);
+        $user = Auth::user()->id;
 
-        // $cart = Cart::where('user_id', $user->id)
-        // $user = Auth::user();
-
-        $user = Auth::user();
-        // dd($user);
-        // $cart = Cart::where('user_id', $user->id)
-        $cart = Cart::where('user_id', $request->user_id)
+        $cart = Cart::where('user_id', $user)
         ->where('product_id', $request->product_id)
         ->first();
 
@@ -61,30 +46,13 @@ class CartController extends Controller
         $cart->save();
         } else {
         $cart = Cart::updateOrCreate([
-            // 'user_id' => $user->id,
-            'user_id' => $request->user_id,
+            'user_id' => $user,
             'product_id' => $request->product_id,
             'quantity' => $request->quantity,
             'price' => $request->price,
         ]);
         }
         return ApiResponse::sendResponse(200, 'Cart is created', $cart);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Cart $cart)
-    {
-        //
     }
 
     /**
@@ -118,6 +86,6 @@ class CartController extends Controller
     {
         $cart=Cart::findOrFail($id);
         $cart->delete();
-        return ApiResponse::sendResponse(200, 'Cart is deleted', $cart);
+        return ApiResponse::sendResponse(200, 'Cart Item  is deleted', $cart);
     }
 }

@@ -31,17 +31,10 @@ use App\Http\Controllers\CartController;
 
 // Route::prefix('api')->middleware(['auth:sanctum','api','web'])->group(function () {
 // Route::prefix('api')->group(function () {
-//     Route::post('user/products', [ProductController::class, 'store']);
-    // Route::resource('categories', CategoryController::class);
     // Route::get('user/products',[ProductController::class, 'index']);
-    // Route::resource('product_images', ProductImageController::class);
     // Route::get('/categories/{id}/products', [CategoryController::class, 'getProducts']);
-    // Route::resource('orders', OrderController::class);
-    // Route::resource('order-items', OrderItemController::class);
     // Route::get('users/{user_id}/orders/{order_id}', [OrderController::class, 'getOrderForUser']);
     // Route::get('user', [ProductController::class, 'search']);
-    // Route::get('users/{user_id}/orders', [OrderController::class, 'getOrdersForUser']);
-    // Route::get('user', [ProductController::class, 'search']);0
 // });
 
 // Route::prefix('api')->group(function () {
@@ -50,27 +43,24 @@ use App\Http\Controllers\CartController;
 
 
 Route::get('users/{user_id}/orders', [OrderController::class, 'getOrdersForUser']);
+
 Route::group(["prefix" => "admin/"],function(){
     Route::controller(AdminController::class)->group(function () {
+
         //http://localhost:8000/api/admin/register
         Route::post('register', 'register');
-        //http://localhost:8000/api/admin/login
         Route::post('login', 'login');
-        //http://localhost:8000/api/admin/logout must be login as user and logout with token
         Route::post('logout', 'logout')->middleware('auth:admin-api');
     });
-    Route::get("orders/{id}/reject",[OrderController::class,'reject']);
-    Route::get("orders/{id}/accept",[OrderController::class,'accept']);
-    // Route::group(["middleware" => "auth:admin-api"] , function(){
-
-        // http://localhost:8000/api/admin/products must be login as admin and send token to featch
-        Route::resource('products', ProductController::class);
-        //http://localhost:8000/api/admin/categories must be login as admin and send token to featch
+        // Route::resource('products', ProductController::class);
         Route::resource('categories', CategoryController::class);
-        //http://localhost:8000/api/admin/orders  must be login as admin and send token to featch
 
+        Route::get("orders/{id}/reject",[OrderController::class,'reject']);
+        Route::get("orders/{id}/accept",[OrderController::class,'accept']);
+
+    Route::group(["middleware" => "auth:admin-api"] , function(){
         Route::resource('orders', OrderController::class);
-    // });
+        Route::resource('products', ProductController::class);
 
 });
 // Route::put('orders',[OrderController::class,'update']);
@@ -85,7 +75,7 @@ Route::group(["prefix" => "user/"],function(){
 
     Route::resource('carts',CartController::class);
 
-    // });
+    });
 
     Route::controller(AuthController::class)->group(function (){
         //http://localhost:8000/api/user/register
@@ -95,11 +85,11 @@ Route::group(["prefix" => "user/"],function(){
         //http://localhost:8000/api/user/login must be login as user and logout with token
         Route::post('logout','logout')->middleware('auth:sanctum');
     });
+
 });
 
 Route::resource('orders', OrderController::class);
 
-Route::get('users/{user_id}/orders', [OrderController::class, 'getOrdersForUser']);
 Route::resource("users",UserController::class);
 
 
