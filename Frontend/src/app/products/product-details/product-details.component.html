@@ -1,16 +1,17 @@
+<app-header/>
 <div class="container mt-5">
   <div class="card mt-5 mx-auto w-50">
     <div class="card-header">
       <h3 class="card-title text-center">{{ product?.title }}</h3>
       <img [src]="imageDirectoryPath+product?.image" alt="not found" class="img-fluid w-100 mb-2">
-      <h6 class="card-subtitle text-muted">Price: ${{ product?.price }}</h6>
-    </div>
-    <div class="card-body">
-      <p class="card-text">{{ product?.description }}</p>
-      <p class="card-text">Stock: {{ product?.stock }}</p>
-      <p class="card-text">Rating: {{ product?.rating }}</p>
-      <p class="card-text">Status: {{ product?.status === '1' ? 'Available' : 'Unavailable' }}</p>
-    </div>
+      <h6 class="card-subtitle text-center my-2"><span class="fw-bold">Price: </span>${{ product?.price }}</h6>
+      </div>
+      <div class="card-body">
+        <p class="card-text"><span class="fw-bold">Description: </span> {{ product?.description }}</p>
+        <p class="card-text"><span class="fw-bold">Stock: </span>{{ product?.stock }}</p>
+        <p class="card-text"><span class="fw-bold">Status: </span> {{ product?.status === '1' ? 'Available' : 'Unavailable' }}
+        </p>
+      </div>
     <div class="card-footer d-flex justify-content-between">
       <a class="btn btn-primary" [routerLink]="['/products']">Back</a>
       <button class="btn btn-success" (click)="addToCart(product)">Add To Cart </button>

@@ -1,4 +1,6 @@
 <!-- src/app/cart/cart.component.html -->
+
+<app-header/>
 <div class="container">
   <h1 class="my-4">Cart Items</h1>
   <div *ngIf="cartItems.length > 0; else emptyCart">
@@ -17,12 +19,13 @@
           <td>{{ item.quantity }}</td>
           <td>{{ item.price * item.quantity }}</td>
           <td>
-            <button class="btn btn-primary btn-sm" (click)="increaseQuantity(item)">+</button>
-            <button class="btn btn-danger btn-sm" (click)="decreaseQuantity(item)">-</button>
+            <button class="btn btn-primary btn mx-1" (click)="increaseQuantity(item)">+</button>
+            <button class="btn btn-danger btn mx-1" (click)="decreaseQuantity(item)">-</button>
           </td>
         </tr>
       </tbody>
     </table>
+    <button class="btn btn-success" (click)="checkout()">Confirm Order</button>
   </div>
 
   <ng-template #emptyCart>

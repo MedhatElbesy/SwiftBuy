@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Helpers\ApiResponse;
 use App\Http\Requests\OrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 class OrderController extends Controller
 {
 
@@ -22,9 +24,8 @@ class OrderController extends Controller
         return ApiResponse::sendResponse(200,"All Orders",$orders);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
+
     public function store(OrderRequest $request)
     {
         $request->validated();
@@ -48,6 +49,57 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      */
+
+
+
+    // public function store(OrderRequest $request)
+    // {
+    //     $user = Auth::user();
+    //     $userId = $user->id;
+
+    //     $validated = $request->validated();
+
+    //     DB::beginTransaction();
+
+    //     try {
+    //         $order = Order::create([
+    //             'user_id' => $userId,
+    //             'date' => $validated['date'],
+    //             'status' => $validated['status'],
+    //             'total_price' => 0,
+    //         ]);
+
+    //         $total = 0;
+
+    //         foreach ($validated['items'] as $item) {
+    //             $product = Product::find($item['product_id']);
+    //             $itemTotalPrice = $item['quantity'] * $product->final_price;
+    //             $total += $itemTotalPrice;
+
+    //             $order->items()->create([
+    //                 'product_id' => $item['product_id'],
+    //                 'quantity' => $item['quantity'],
+    //                 'price' => $product->final_price,
+    //             ]);
+    //         }
+
+    //         $order->total_price = $total;
+    //         $order->save();
+
+    //         Cart::where('user_id', $userId)->delete();
+
+    //         DB::commit();
+
+    //         return ApiResponse::sendResponse(201, "Order Created Successfully", $order->load('items'));
+
+    //     } catch (\Exception $e) {
+    //         DB::rollBack();
+    //         return ApiResponse::sendResponse(500, "Order Creation Failed", $e->getMessage());
+    //     }
+    // }
+
+
+
     public function show($id)
     {
         return Order::with('items')->findOrFail($id);

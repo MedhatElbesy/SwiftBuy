@@ -41,7 +41,7 @@ export class DeleteProductComponent implements OnInit {
           this.router.navigateByUrl('/dashboard/products');
         });
       } else {
-        // User canceled deletion, do nothing
+        this.router.navigateByUrl('/dashboard/products');
       }
     });
   }

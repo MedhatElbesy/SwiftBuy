@@ -25,7 +25,7 @@ export class AddProductComponent {
       description: ['', Validators.required],
       stock: ['', Validators.required],
       price: ['', [Validators.required, Validators.min(0)]],
-      rating: ['', Validators.required],
+      // rating: ['', Validators.required],
       status: ['', Validators.required],
       category_id: ['', Validators.required],
       promotion: ['']
