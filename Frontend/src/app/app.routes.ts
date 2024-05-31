@@ -15,17 +15,18 @@ import { AboutComponent } from './components/about/about.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { AuthGuard } from './guard/auth.guard';
 import { Error404Component } from './error/404/404.component';
+import { AdminGuard } from './guard/role.guard';
 
 export const routes: Routes = [
   { path: '', component: UserHomeComponent },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'products', component: ProductsComponent, canActivate: [AuthGuard] },
-  { path: 'products/:id', component: ProductDetailsComponent },
+  { path: 'products/:id', component: ProductDetailsComponent, canActivate: [AuthGuard] },
   {
     path: 'dashboard',
     component: AdminComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, AdminGuard],
     children: [
       { path: 'products', component: ProductAdminComponent },
       { path: 'product/add', component: AddProductComponent },
