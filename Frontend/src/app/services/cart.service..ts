@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class CartService {
-  private apiUrl = 'http://127.0.0.1:8000/api/carts';
+  private apiUrl = 'http://127.0.0.1:8000/api/user/carts';
 
   constructor(private http: HttpClient) { }
 

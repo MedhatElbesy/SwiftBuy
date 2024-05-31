@@ -9,8 +9,8 @@ import { Cart, ApiResponse } from '../models/cart';
   providedIn: 'root'
 })
 export class CartService {
-  // private apiUrl = 'http://localhost:8000/api/user/carts';
-  private apiUrl = 'http://localhost:8000/api/carts';
+  private apiUrl = 'http://localhost:8000/api/user/carts';
+  // private apiUrl = 'http://localhost:8000/api/carts';
 
   constructor(private http: HttpClient) { }
 
