@@ -10,13 +10,13 @@ import Swal from 'sweetalert2';
 import { HeaderComponent } from '../components/header/header.component';
 
 @Component({
-  selector: 'app-profile-component',
-  standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,HeaderComponent],
-  templateUrl: './profile-component.component.html',
-  styleUrl: './profile-component.component.css'
+    selector: 'app-edit-profile',
+    standalone: true,
+    imports: [CommonModule,ReactiveFormsModule,HeaderComponent],
+    templateUrl: './edit-profile.component.html',
+    styleUrl: './edit-profile.component.css'
 })
-export class ProfileComponentComponent implements OnInit , OnDestroy
+export class EditProfileComponent implements OnInit , OnDestroy
 {
   users:User[]=[];
   orders: Order[] = [];
@@ -67,6 +67,7 @@ export class ProfileComponentComponent implements OnInit , OnDestroy
       const updatedData = this.updateForm.value;
       this.profileService.updateUser(userId, updatedData).subscribe(updatedUser => {
         this.user = updatedUser;
+        this.router.navigate(['/users']);
       });
     } else {
       console.error('User ID not found in local storage.');
@@ -105,8 +106,8 @@ export class ProfileComponentComponent implements OnInit , OnDestroy
     });
   }
 
-navigation(){
-    this.router.navigate(['/users/edit']);
-  }
+
+
+
 
 }
