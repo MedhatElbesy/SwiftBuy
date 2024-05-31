@@ -35,5 +35,11 @@ export class ProductAdminService {
   updateProductStatus(productId: number, status: string): Observable<any> {
     return this.http.put(`${this.baseUrl}+${productId}`, { status });
   }
+  update(id: number, formData: FormData): Observable<any> {
+    const url = `${this.baseUrl}${id}?_method=PATCH`;
+    return this.http.post<any>(url, formData);
+    // http://localhost:8000/api/user/products/
+    // return this.http.post<any>(this.baseUrl + prd.id +?_method=patch, prd);
+  }
 
 }

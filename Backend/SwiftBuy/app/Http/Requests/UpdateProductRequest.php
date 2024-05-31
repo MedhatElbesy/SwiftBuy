@@ -20,7 +20,7 @@ class UpdateProductRequest extends FormRequest
             'price'        => 'sometimes|required|numeric|min:0',
             'rating'       => 'sometimes|required|in:1,2,3,4,5',
             'status'       => 'sometimes|required|in:0,1',
-            'category_id'  => 'sometimes|required|exists:categories,id',
+            // 'category_id'  => 'sometimes|required|exists:categories,id',
             'image'        => 'nullable|',
             'promotion'    => 'nullable|string|max:255',
             'final_price'  => 'nullable|string|max:255',

@@ -15,6 +15,10 @@ export class CartService {
 
   constructor(private http: HttpClient) { }
 
+  addToCart(item: Cart): Observable<Cart> {
+    return this.http.post<Cart>(this.apiUrl, item);
+  }
+
   getCart(): Observable<Cart[]> {
     return this.http.get<ApiResponse>(this.apiUrl).pipe(
       map(response => response.data)
