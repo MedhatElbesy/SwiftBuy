@@ -22,7 +22,7 @@ export class CartService {
   }
 
   addToCart(item: Cart): Observable<Cart> {
-    return this.http.post<Cart>(this.apiUrl, item);
+    return this.http.post<Cart>(this.apiUrl, item, { headers: this.getHeaders() });
   }
 
   getCart(): Observable<Cart[]> {
@@ -34,11 +34,12 @@ export class CartService {
   // Add other cart-related methods if necessary
   updateCartItem(item: Cart): Observable<Cart> {
     const url = `${this.apiUrl}/${item.id}`;
-    return this.http.put<Cart>(url, item);
+    return this.http.put<Cart>(url, item, { headers: this.getHeaders() });
   }
+
   deleteCartItem(itemId: number): Observable<void> {
     const url = `${this.apiUrl}/${itemId}`;
-    return this.http.delete<void>(url);
+    return this.http.delete<void>(url, { headers: this.getHeaders() });
   }
   createOrder(orderRequest: OrderRequest): Observable<Order> {
     return this.http.post<Order>(this.orderUrl, orderRequest);
