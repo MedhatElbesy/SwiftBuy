@@ -42,6 +42,9 @@ class CartController extends Controller
         // dd($user = Auth::user()->id);
         $user = Auth::user();
 
+
+
+        
         $cart = Cart::where('user_id', $user->id)
         ->where('product_id', $request->product_id)
         ->first();

@@ -84,6 +84,7 @@ Route::group(["prefix" => "user/"],function(){
         });
 
     // });
+    // he
 
     Route::controller(AuthController::class)->group(function (){
         //http://localhost:8000/api/user/register

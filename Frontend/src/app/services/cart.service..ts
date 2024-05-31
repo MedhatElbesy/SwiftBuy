@@ -20,6 +20,9 @@ export class CartService {
     return this.http.post(this.apiUrl, product,{ headers: this.getHeaders() });
   }
 
+
+  
+
   delete(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
