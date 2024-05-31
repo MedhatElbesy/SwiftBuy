@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product } from '../models/product';
 import { Observable,of } from 'rxjs';
@@ -13,6 +13,12 @@ export class ProductService {
   // private productCache: { [id: number]: Product } = {};
 
   constructor(private http: HttpClient) { }
+  private getHeaders() {
+    const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  }
 
   // getAllProducts(): Observable<Product[]> {zz
   //   if (this.cache['allProducts']) {
@@ -24,10 +30,12 @@ export class ProductService {
   //   );
   // }
   getAllProducts(): Observable<Product[]> {
-    return this.http.get<any>(this.baseUrl).pipe(
+    const headers = this.getHeaders();
+    return this.http.get<any>(this.baseUrl, { headers }).pipe(
       map(response => response.data as Product[])
     );
   }
+
   addProduct(prd: Product) {
     return this.http.post<any>(this.baseUrl, prd);
   }
