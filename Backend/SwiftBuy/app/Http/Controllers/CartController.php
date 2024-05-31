@@ -15,15 +15,20 @@ class CartController extends Controller
      */
     public function index()
     {
+        // Get the currently authenticated user
         $user = Auth::user();
-        if($user){
+
+        // Check if the user is authenticated
+        if ($user) {
+            // Retrieve the user's cart items
             $carts = Cart::where('user_id', $user->id)->get();
             return ApiResponse::sendResponse(200, 'Cart is found', $carts);
-        }
-        else{
-            return ApiResponse::sendResponse(400, 'Not autherized');
+        } else {
+            // Return an unauthorized response if the user is not authenticated
+            return ApiResponse::sendResponse(401, 'Not authorized');
         }
     }
+
 
     /**
      * Store a newly created resource in storage.
