@@ -59,7 +59,7 @@ Route::group(["prefix" => "admin/"],function(){
         Route::get("orders/{id}/accept",[OrderController::class,'accept']);
 
     Route::group(["middleware" => "auth:admin-api"] , function(){
-        Route::resource('orders', OrderController::class);
+        // Route::resource('orders', OrderController::class);
         Route::resource('products', ProductController::class);
 
     });
