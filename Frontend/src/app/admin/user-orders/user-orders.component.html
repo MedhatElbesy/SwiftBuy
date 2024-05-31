@@ -1,42 +1,48 @@
-<br><br>
+<div class="container-fluid my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div *ngFor="let order of orders; let i=index" class="order-card my-3 pb-3">
+        <div class="order-header d-flex justify-content-between align-items-center  bg-dark bg-opacity-50">
+          <div class="m-3">
+            <h5>Order Date: {{ order.created_at | date:'yyyy/MM/dd' }}</h5>
+            <p>ID: {{ order.id }}</p>
+            <p>Status: {{ order.status }}</p>
+          </div>
+          <div class="order-actions mx-3">
+            <select class="form-select " aria-label="Change status" [(ngModel)]="order.status" (change)="editStatus($event, order.id)">
+              <option value="accepted">Accepted</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
+        </div>
 
-<div class="container-fluid container-lg my-5 mx-auto">
-
-	@for(order of orders; track order.id;let i=$index){
-	<div class="p-3 order_detailes bg-white bg-opacity-50 my-2">
-	  <div class="table-responsive">
-		<table class="table align-middle">
-		  <thead>
-			<tr>
-			  <th>Order Date</th>
-			  <th>ID</th>
-			  <th>Status</th>
-			  <th>Action</th>
-
-			</tr>
-		  </thead>
-		  <tbody>
-			<tr>
-			  <td class="text-dark">{{ order.created_at | date:'yyyy/MM/dd' }}</td>
-			  <td class="text-dark">{{order.id }}</td>
-			  <td class="text-dark">{{order.status}}</td>
-			  <td>
-				<!-- <button type="button" [disabled]="order.status != 'progress'" (click)="cancel(order.id,i)" class="btn btn-danger">Cancel</button> -->
-                <select  class="form-select bg-white bg-opacity-50" aria-label="Default select example"
-                [(ngModel)]="order.status"  (change)="editStatus($event,order.id)">
-                    <option value="accepted">accepted</option>
-                    <option value="rejected">rejected</option>
-                </select>
-            </td>
-			</tr>
-		  </tbody>
-		</table>
-
-	  </div>
-
-
-	  <div class="lead text-end my-0">Total: {{order.total_price}} EGP </div>
-
-	</div>
-}
+        <div *ngIf="order.items && order.items.length > 0">
+          <h6>Items:</h6>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of order.items">
+                  <td>{{ item.id }}</td>
+                  <td>{{ item.quantity }}</td>
+                  <td>{{ item.price }}</td>
+                  <td>{{ item.quantity * item.price }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="order-total text-end mb-3">
+              <strong>Total: {{ order.total_price }} EGP</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+</div>

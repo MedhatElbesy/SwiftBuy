@@ -17,8 +17,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        // $orders = Order::with('items')->get();
-        $orders = Order::get();
+        $orders = Order::with('items')->get();
+        // $orders = Order::get();
         return ApiResponse::sendResponse(200,"All Orders",$orders);
     }
 
