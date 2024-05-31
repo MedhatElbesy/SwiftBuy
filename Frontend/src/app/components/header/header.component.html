@@ -16,23 +16,23 @@
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/contact" routerLinkActive="">Contact Us</a>
                     </li>
-                    <li class="nav-item" *ngIf="authService.isAuthenticated()"> 
+                    <li class="nav-item" *ngIf="authService.isAuthenticated()">
                         <a class="nav-link" routerLink="/products" routerLinkActive="">Products</a>
                     </li>
-                    <li class="nav-item" *ngIf="authService.isAuthenticated()"> 
+                    <li class="nav-item" *ngIf="authService.isAuthenticated()">
                         <a class="nav-link" routerLink="/users" routerLinkActive="">Profile</a>
                     </li>
-                    <li class="nav-item" *ngIf="!authService.isAuthenticated()"> 
+                    <li class="nav-item" *ngIf="!authService.isAuthenticated()">
                         <a class="nav-link" routerLink="/login" routerLinkActive="active">Login</a>
                     </li>
-                    <li class="nav-item" *ngIf="!authService.isAuthenticated()"> 
+                    <li class="nav-item" *ngIf="!authService.isAuthenticated()">
                         <a class="nav-link" routerLink="/register" routerLinkActive="active">Register</a>
                     </li>
-                    <li class="nav-item" *ngIf="authService.isAuthenticated()"> 
-                        <a class="nav-link btn btn-danger" href="#" (click)="logout()">Logout</a>
+                    <li class="nav-item" *ngIf="authService.isAuthenticated()">
+                        <a class="nav-link btn btn-danger" routerLink="/" (click)="logout()">Logout</a>
                     </li>
-                </ul> 
-            </div>  
+                </ul>
+            </div>
         </div>
     </div>
 </nav>

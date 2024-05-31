@@ -33,7 +33,7 @@ export class LoginComponent implements OnDestroy {
     private userService: UserService,
     private logauthService: LogAuthService
   ) {}
-  
+
 
   togglePasswordVisibility() {
     if (this.passwordFieldType === 'password') {
@@ -72,6 +72,7 @@ export class LoginComponent implements OnDestroy {
               this.localStorage.setValue('token', response.body.data.token);
               this.localStorage.setValue('name', response.body.data.name);
               this.localStorage.setValue('id', response.body.data.id);
+              this.localStorage.setValue('isLoggedIn', 'true');
               this.router.navigate(['/']);
             },
             error: (error) => {
@@ -88,6 +89,7 @@ export class LoginComponent implements OnDestroy {
               this.localStorage.setValue('id', response.body.data.id);
               this.localStorage.setValue('name', response.body.data.name);
               this.localStorage.setValue('role', 'admin');
+              this.localStorage.setValue('isLoggedIn', 'true');
               this.router.navigate(['/']);
             },
             error: (error) => {
@@ -111,5 +113,4 @@ export class LoginComponent implements OnDestroy {
     this.logauthService.signin();
     this.router.navigate(['/']);
   }
-
 }
