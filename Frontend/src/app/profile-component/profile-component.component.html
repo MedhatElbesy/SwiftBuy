@@ -1,33 +1,38 @@
 <app-header/>
 
-<div class="container mt-4">
+<div class="container mt-5">
   <!-- User Details Section -->
-  <div class="card mb-4">
+  <div class="card mb-4 custom-card">
     <div class="card-body">
-      <h5 class="card-title">User Details</h5>
-      <!-- Uncomment and adjust the image source if needed -->
-      <!-- <img [src]="baseUrl + user.photo" alt="{{ user?.name }}" class="img-thumbnail mb-3" width="150"> -->
-      <p class="card-text"><strong>Name:</strong> {{ user?.name }}</p>
-      <p class="card-text"><strong>Email:</strong> {{ user?.email }}</p>
-      <p class="card-text"><strong>Gender:</strong> {{ user?.gender }}</p>
-      <button (click)="navigation()" class="btn btn-success mt-3">Go to Edit User</button>
+      <h2 class="card-title text-center mb-4">User Details</h2>
+      <hr>
+      <div class="d-flex flex-column align-items-center">
+        <!-- Uncomment and adjust the image source if needed -->
+        <!-- <img [src]="baseUrl + user.photo" alt="{{ user?.name }}" class="img-thumbnail mb-3" width="150"> -->
+        <div class="user-details">
+          <p class="user-detail"><strong>Name:</strong> {{ user?.name }}</p>
+          <p class="user-detail"><strong>Email:</strong> {{ user?.email }}</p>
+          <p class="user-detail"><strong>Gender:</strong> {{ user?.gender }}</p>
+        </div>
+        <button (click)="navigation()" class="btn btn-primary btn-sm mt-3">Edit User</button>
+      </div>
     </div>
   </div>
 
   <!-- Orders List Section -->
-  <div class="row">
-    <div *ngFor="let order of orders" class="col-md-6 col-lg-4">
-      <div class="card mb-3 h-100">
-        <div class="card-header d-flex justify-content-between align-items-center">
-          <span>Order ID: {{ order.id }}</span>
-          <span class="badge bg-info">{{ order.status }}</span>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
+    <div *ngFor="let order of orders" class="col">
+      <div class="card h-100 custom-card">
+        <div class="card-header text-white d-flex justify-content-between align-items-center" [ngStyle]="{ 'backgroundColor': getStatusColor(order.status) }">
+          <span class="fw-bold">Order ID: {{ order.id }}</span>
+          <span>{{ order.status }}</span>
         </div>
         <div class="card-body">
           <h5 class="card-title">Order Details</h5>
+          <hr>
           <p class="card-text"><strong>Order Price:</strong> ${{ order.total_price }}</p>
-          <p class="card-text"><strong>Order Status:</strong> {{ order.status }}</p>
-          <button *ngIf="order.status === 'pending'" class="btn btn-danger" (click)="deleteOrder(order.id)">Delete
-            Order</button>
+          <p class="card-text"><strong>Order Status:</strong> <span [ngStyle]="{ 'color': getStatusColor(order.status) }"> {{ order.status }}</span></p>
+          <button *ngIf="order.status === 'pending'" class="btn btn-danger btn-sm" (click)="deleteOrder(order.id)">Delete Order</button>
         </div>
       </div>
     </div>
