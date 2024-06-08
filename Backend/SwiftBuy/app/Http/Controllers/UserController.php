@@ -19,8 +19,10 @@ class UserController extends Controller
     public function index()
     {
         $users = User::get();
-
-        return ApiResponse::sendResponse('200','All users',$users);
+        if($users){
+            return ApiResponse::sendResponse('200','All users',$users);
+        }
+        return ApiResponse::sendResponse(404, 'There are no  Users');
     }
 
     public function show($id)
@@ -39,15 +41,12 @@ class UserController extends Controller
         if (is_null($user)) {
             return response()->json(['message' => 'User not found'], 404);
         }
-
         $user->fill($request->only(['name', 'email', 'gender', 'photo']));
-
+        
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
-
         $user->save();
-
         return ApiResponse::sendResponse(200,"Updated Successfully",$user);
     }
 

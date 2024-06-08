@@ -14,10 +14,10 @@ class UpdateOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'sometimes|required|exists:users,id',
-            'date' => 'sometimes|required|date',
-            'total_price' => 'sometimes|required|string|max:255',
-            'status' => 'sometimes|required|in:pending,accepted,rejected',
+            'user_id' => 'sometimes|exists:users,id',
+            'date' => 'sometimes|date',
+            'total_price' => 'sometimes|string|max:255',
+            'status' => 'sometimes|in:pending,accepted,rejected',
         ];
     }
 }

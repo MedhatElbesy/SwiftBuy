@@ -21,7 +21,11 @@ class OrderController extends Controller
     {
         $orders = Order::with('items')->get();
         // $orders = Order::get();
-        return ApiResponse::sendResponse(200,"All Orders",$orders);
+        if($orders){
+            return ApiResponse::sendResponse(200,"All Orders",$orders);
+        }
+        return ApiResponse::sendResponse(404,"Ca`nt find orders");
+
     }
 
 
@@ -35,6 +39,9 @@ class OrderController extends Controller
         if ($request->has('items')) {
             foreach ($request->items as $key => $item) {
                 $product = Product::find($item['product_id']);
+                if (!$product) {
+                    return ApiResponse::sendResponse(404, 'Product not found');
+                }
                 $total [] = $item['quantity'] * $product->final_price ;
                 $order->items()->create($item);
             }
@@ -42,68 +49,23 @@ class OrderController extends Controller
         $final = array_sum($total);
 
         $order->total_price = $final ;
-        $order->save();
-        return ApiResponse::sendResponse(201,"Order Created Successfully",$order->load('items'));
+        if (!$order->save()) {
+            return ApiResponse::sendResponse(500, 'Failed to create order');
+        }
+        return ApiResponse::sendResponse(201, 'Order Created Successfully', $order->load('items'));
     }
 
     /**
      * Display the specified resource.
      */
 
-
-
-    // public function store(OrderRequest $request)
-    // {
-    //     $user = Auth::user();
-    //     $userId = $user->id;
-
-    //     $validated = $request->validated();
-
-    //     DB::beginTransaction();
-
-    //     try {
-    //         $order = Order::create([
-    //             'user_id' => $userId,
-    //             'date' => $validated['date'],
-    //             'status' => $validated['status'],
-    //             'total_price' => 0,
-    //         ]);
-
-    //         $total = 0;
-
-    //         foreach ($validated['items'] as $item) {
-    //             $product = Product::find($item['product_id']);
-    //             $itemTotalPrice = $item['quantity'] * $product->final_price;
-    //             $total += $itemTotalPrice;
-
-    //             $order->items()->create([
-    //                 'product_id' => $item['product_id'],
-    //                 'quantity' => $item['quantity'],
-    //                 'price' => $product->final_price,
-    //             ]);
-    //         }
-
-    //         $order->total_price = $total;
-    //         $order->save();
-
-    //         Cart::where('user_id', $userId)->delete();
-
-    //         DB::commit();
-
-    //         return ApiResponse::sendResponse(201, "Order Created Successfully", $order->load('items'));
-
-    //     } catch (\Exception $e) {
-    //         DB::rollBack();
-    //         return ApiResponse::sendResponse(500, "Order Creation Failed", $e->getMessage());
-    //     }
-    // }
-
-
-
     public function show($id)
     {
-        return Order::with('items')->findOrFail($id);
-
+        $order = Order::with('items')->findOrFail($id);
+        if($order){
+            return ApiResponse::sendResponse(200, 'Order is',$order);
+        }
+        return ApiResponse::sendResponse(500, 'Can`t find this order');
     }
 
     /**
@@ -118,9 +80,10 @@ class OrderController extends Controller
         }
 
         $order->fill($request->only(['user_id', 'date', 'total_price', 'status']));
-        $order->save();
-
-        return ApiResponse::sendResponse(200,"Updated Successfully",$order);
+        if($order->save()){
+            return ApiResponse::sendResponse(200,"Updated Successfully",$order);
+        }
+        return ApiResponse::sendResponse(500,"Fait to Update");
     }
 
 
@@ -130,8 +93,10 @@ class OrderController extends Controller
     public function destroy($id)
     {
         $order = Order::findOrFail($id);
-        $order->delete();
-        return ApiResponse::sendResponse(204,"Order Deleted Successfully");
+        if($order->delete()){
+            return ApiResponse::sendResponse(204,"Order Deleted Successfully");
+        }
+        return ApiResponse::sendResponse(500,"Fail to delete");
     }
 
 
@@ -159,17 +124,16 @@ class OrderController extends Controller
 
     public function reject(string $id)
     {
-
-            $Order = Order::findOrFail($id);
-            $Order ->update(['status' => 'rejected']);
-            return response()->json($Order,202);
+        $order = Order::findOrFail($id);
+        $order ->update(['status' => 'rejected']);
+        return ApiResponse::sendResponse(200,"Orders ",$order);
     }
 
 
     public function accept(Request $request, string $id)
     {
-        $Order = Order::find($id);
-        $Order ->update(['status'=> 'accepted']);
-        return response()->json($Order,200);
+        $order = Order::find($id);
+        $order ->update(['status'=> 'accepted']);
+        return ApiResponse::sendResponse(200,"Orders ",$order);
     }
 }

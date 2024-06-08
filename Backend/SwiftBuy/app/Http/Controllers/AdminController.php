@@ -11,33 +11,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    public function register(Request $request){
-        $validator = Validator::make($request->all(),
-        [
-            'name' => ['required','string'],
-            'email' => 'required|unique:admins,email',
-            'password' => ['required'],
-            'username' => ['nullable']
-        ],[],[
-            'name' => 'Name',
-            'email' => 'Email',
-            'password' > 'Password'
-        ]);
 
-        if($validator->fails()){
-            return 'Fail Validation';
-        }
-        $admin = Admin::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password)
-        ]);
-        $data['token'] = $admin->createToken("apitoken")->plainTextToken;
-        $data['name'] = $admin->name;
-        return ApiResponse::sendResponse(200,"Register Success", $data);
-
-
-    }
 
     public function login(Request $request) {
     $validator = Validator::make($request->all(), [

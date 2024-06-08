@@ -18,6 +18,7 @@ class CategoryController extends Controller
         if ($categories) {
             return ApiResponse::sendResponse(200, 'All Categories', $categories);
         }
+        return ApiResponse::sendResponse(404, 'There are no  Categories');
     }
 
     /**
@@ -39,6 +40,7 @@ class CategoryController extends Controller
 
             return ApiResponse::sendResponse(201, 'Category Created Successfully', $record);
         }
+        return ApiResponse::sendResponse(500, 'Fail to create Category');
     }
 
 
@@ -51,6 +53,8 @@ class CategoryController extends Controller
         if ($data) {
             return ApiResponse::sendResponse(200, 'Category', $data);
         }
+        return ApiResponse::sendResponse(404, 'Can`t find this Category');
+
     }
 
     /**
@@ -60,13 +64,10 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, $id)
     {
         $category = Category::find($id);
-
         if (!$category) {
             return ApiResponse::sendResponse(404, 'Category not found');
         }
-
         $validatedData = $request->validated();
-
         $category->fill($validatedData);
 
         if ($request->hasFile('cover_image')) {
@@ -75,19 +76,11 @@ class CategoryController extends Controller
             $image->move(public_path('images'), $imageName);
             $category->cover_image = 'category/' . $imageName;
         }
-
-        $category->save();
-
+        if (!$category->save()) {
+            return ApiResponse::sendResponse(500, 'Failed to update category');
+        }
         return ApiResponse::sendResponse(200, 'Category updated successfully', $category);
     }
-
-
-
-
-
-
-
-
 
     /**
      * Remove the specified resource from storage.
@@ -98,12 +91,15 @@ class CategoryController extends Controller
 
         if ($category->cover_image) {
             $imagePath = public_path($category->cover_image);
-            if (file_exists($imagePath)) {
-                unlink($imagePath);
+
+            if (file_exists($imagePath) && !unlink($imagePath)) {
+                return ApiResponse::sendResponse(500, 'Failed to delete cover image');
             }
         }
-        $category->delete();
 
+        if (!$category->delete()) {
+            return ApiResponse::sendResponse(500, 'Failed to delete category');
+        }
         return ApiResponse::sendResponse(200, 'Category Deleted Successfully');
     }
 

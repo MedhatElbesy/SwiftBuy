@@ -15,16 +15,12 @@ class CartController extends Controller
      */
     public function index()
     {
-        // Get the currently authenticated user
         $user = Auth::user();
 
-        // Check if the user is authenticated
         if ($user) {
-            // Retrieve the user's cart items
             $carts = Cart::where('user_id', $user->id)->get();
             return ApiResponse::sendResponse(200, 'Cart is found', $carts);
         } else {
-            // Return an unauthorized response if the user is not authenticated
             return ApiResponse::sendResponse(401, 'Not authorized');
         }
     }
@@ -36,8 +32,8 @@ class CartController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'quantity' => 'sometimes|required|integer',
-            'price' => 'sometimes|required|numeric',
+            'quantity' => 'sometimes|integer',
+            'price' => 'sometimes|numeric',
         ]);
         // dd($user = Auth::user()->id);
         $user = Auth::user();
@@ -70,8 +66,8 @@ class CartController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'quantity' => 'sometimes|required|integer',
-            'price' => 'sometimes|required|numeric',
+            'quantity' => 'sometimes|integer',
+            'price' => 'sometimes|numeric',
         ]);
 
        // $user = Auth::user();

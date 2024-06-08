@@ -16,15 +16,11 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::where(function($q) use($request){
-            if ($request->search) {
-                $q->where('title', 'LIKE', '%' . $request->search . '%');
-            }
-        })->
-        get();
+        $products = Product::get();
         if ($products) {
             return ApiResponse::sendResponse(200, 'All Products', $products);
         }
+        return ApiResponse::sendResponse(404, 'Can`t find Products');
     }
 
     /**
@@ -37,6 +33,10 @@ class ProductController extends Controller
         $data = $request->validated();
         $product = Product::create($request->only(['title','description','stock','price','	rating','status','category_id','created_at','updated_at','image','promotion']));
 
+        if (!$product) {
+            return ApiResponse::sendResponse(500, 'Failed to create product');
+        }
+
         $price = ($data['price'] -(($data['price'] * $data['promotion'])/100));
         $product->final_price = $price;
 
@@ -46,7 +46,10 @@ class ProductController extends Controller
             if($request->hasFile('image')){
                 $image = $request->file('image');
                 $imageName = time().'.'.$image->getClientOriginalExtension();
-                $image->move(public_path('images'), $imageName);
+
+                if (!$image->move(public_path('images'), $imageName)) {
+                return ApiResponse::sendResponse(500, 'Failed to upload product image');
+                }
                 $product->image =$imageName;
                 $product->save();
             }
@@ -60,8 +63,10 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = Product::findOrFail($id);
-        if($product)
+        if($product){
             return ApiResponse::sendResponse(200,'Product',$product);
+        }
+        return ApiResponse::sendResponse(404, 'Can`t find this Product');
     }
 
 
